@@ -1,8 +1,8 @@
 import http from 'node:http';
 import https from 'node:https';
-import { isHttps, isRPC, RPCClient, RPCOptions } from './types';
+import { isHttps, isRPC, RpcClient, RpcOptions } from './types';
 
-function Client(opts: RPCOptions): RPCClient {
+function Client(opts: RpcOptions): RpcClient {
   const {
     host,
     port,
@@ -32,7 +32,7 @@ function Client(opts: RPCOptions): RPCClient {
   };
 }
 
-function rpc(req: unknown, client: RPCClient, callback) {
+function rpc(req: unknown, client: RpcClient, callback) {
   const request = JSON.stringify(req);
   const auth = Buffer.from(client.user + ':' + client.pass).toString('base64');
   const { host, port, protocol, rejectUnauthorized, disableAgent } = client;

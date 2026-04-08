@@ -21,7 +21,7 @@ export const isRPC = ({ ssl, host, port }: RPC): boolean => {
   }
 };
 
-export interface RPCOptions {
+export interface RpcOptions {
   host: string;
   port: number;
   user: string;
@@ -32,7 +32,7 @@ export interface RPCOptions {
   rejectUnauthorized: string | boolean;
 }
 
-export interface RPCClient {
+export interface RpcClient {
   host: string;
   port: number;
   user: string;
