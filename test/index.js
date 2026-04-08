@@ -1,14 +1,14 @@
 'use strict';
 
-var chai = require('chai');
-var RpcClient = require('../');
-var util = require('util');
-var EventEmitter = require('events').EventEmitter;
-var sinon = require('sinon');
-var should = chai.should();
-var http = require('http');
-var https = require('https');
-var async = require('async');
+const chai = require('chai');
+const RpcClient = require('../');
+const util = require('util');
+const EventEmitter = require('events').EventEmitter;
+const sinon = require('sinon');
+const http = require('http');
+const https = require('https');
+let async = require('async');
+let should = chai.should();
 
 if(!setImmediate) setImmediate = setTimeout;
 

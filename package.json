@@ -1,6 +1,6 @@
 {
   "name": "bitcoind-rpc-zcoin",
-  "description": "Zcoin Client Library to connect to Zerocoin Core via RPC",
+  "description": "Firo Client Library to connect to Firo Core via RPC",
   "version": "0.7.0",
   "author": {
     "name": "Stephen Pair",
@@ -39,11 +39,13 @@
     "coverage": "node_modules/.bin/istanbul cover node_modules/.bin/_mocha -- --recursive"
   },
   "devDependencies": {
+    "@types/node": "^25.5.2",
     "async": "^0.9.0",
     "chai": "^1.10.0",
     "coveralls": "^2.11.2",
     "istanbul": "^0.3.5",
     "mocha": "^2.1.0",
+    "prettier": "^3.8.1",
     "sinon": "^1.12.2"
   },
   "bugs": {
