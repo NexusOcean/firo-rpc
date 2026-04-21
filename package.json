@@ -1,52 +1,86 @@
 {
   "name": "bitcoind-rpc-zcoin",
   "description": "Firo Client Library to connect to Firo Core via RPC",
-  "version": "0.7.0",
+  "version": "0.8.0",
   "author": {
     "name": "Stephen Pair",
     "email": "stephen@bitpay.com"
   },
-  "contributors": [
-    {
-      "name": "Jeff Garzik",
-      "email": "jgarzik@bitpay.com"
-    },
-    {
-      "name": "Manuel Araoz",
-      "email": "manuelaraoz@gmail.com"
-    },
-    {
-      "name": "Matias Alejo Garcia",
-      "email": "ematiu@gmail.com"
-    },
-    {
-      "name": "Braydon Fuller",
-      "email": "braydon@bitpay.com"
-    }
-  ],
   "keywords": [
+    "firo",
     "zcoin",
-    "rpc"
+    "rpc",
+    "json-rpc",
+    "blockchain",
+    "cryptocurrency",
+    "spark",
+    "lelantus"
   ],
   "repository": {
     "type": "git",
-    "url": "git@github.com:firoorg/bitcoind-rpc-zcoin.git"
+    "url": "git+https://github.com/firoorg/bitcoind-rpc-zcoin.git"
   },
   "license": "MIT",
-  "main": "lib/index.js",
+  "type": "module",
+  "main": "./dist/index.cjs",
+  "module": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js",
+      "require": "./dist/index.cjs"
+    }
+  },
+  "files": [
+    "dist",
+    "README.md",
+    "LICENSE"
+  ],
+  "engines": {
+    "node": ">=24"
+  },
   "scripts": {
-    "test": "node_modules/.bin/mocha test -R spec",
-    "coverage": "node_modules/.bin/istanbul cover node_modules/.bin/_mocha -- --recursive"
+    "build": "tsup",
+    "dev": "tsup --watch",
+    "test": "jest",
+    "test:watch": "jest --watch",
+    "coverage": "jest --coverage",
+    "lint": "eslint lib test",
+    "format": "prettier --write \"lib/**/*.ts\" \"test/**/*.ts\"",
+    "typecheck": "tsc --noEmit",
+    "prepublishOnly": "npm run typecheck && npm run lint && npm run test && npm run build",
+    "prepare": "husky"
+  },
+  "dependencies": {
+    "axios": "^1.15.1"
   },
   "devDependencies": {
-    "@types/node": "^25.5.2",
-    "async": "^0.9.0",
-    "chai": "^1.10.0",
-    "coveralls": "^2.11.2",
-    "istanbul": "^0.3.5",
-    "mocha": "^2.1.0",
-    "prettier": "^3.8.1",
-    "sinon": "^1.12.2"
+    "@eslint/js": "^10.0.1",
+    "@swc/core": "^1.15.30",
+    "@swc/jest": "^0.2.39",
+    "@types/jest": "^30.0.0",
+    "@types/node": "^25.6.0",
+    "@typescript-eslint/eslint-plugin": "^8.59.0",
+    "@typescript-eslint/parser": "^8.59.0",
+    "dotenv": "^17.4.2",
+    "eslint": "^10.2.1",
+    "husky": "^9.1.7",
+    "jest": "^30.3.0",
+    "lint-staged": "^16.4.0",
+    "prettier": "^3.8.3",
+    "tsup": "^8.5.1",
+    "tsx": "^4.21.0",
+    "typescript": "^6.0.3"
+  },
+  "lint-staged": {
+    "*.ts": [
+      "prettier --write",
+      "eslint --fix"
+    ],
+    "*.{json,md,yml,yaml}": [
+      "prettier --write"
+    ]
   },
   "bugs": {
     "url": "https://github.com/firoorg/bitcoind-rpc-zcoin/issues"

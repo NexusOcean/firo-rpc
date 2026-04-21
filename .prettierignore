@@ -1,8 +1,7 @@
-node_modules/
-dist/
-build/
-coverage/
-*.log
-*.tgz
-*.tar.gz
+node_modules
+dist
+coverage
 package-lock.json
+*.log
+.DS_Store
+lib/index.js
