@@ -1,5 +1,5 @@
 {
-  "name": "@nexusocean/firo-rpc",
+  "name": "@nexusocean8/firo-rpc",
   "description": "Modern TypeScript client for Firo's JSON-RPC interface",
   "version": "0.1.0",
   "publishConfig": {
