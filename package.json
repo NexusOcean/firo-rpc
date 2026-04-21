@@ -1,10 +1,13 @@
 {
-  "name": "bitcoind-rpc-zcoin",
-  "description": "Firo Client Library to connect to Firo Core via RPC",
-  "version": "0.8.0",
+  "name": "@nexusocean/firo-rpc",
+  "description": "Modern TypeScript client for Firo's JSON-RPC interface",
+  "version": "0.1.0",
+  "publishConfig": {
+    "access": "public"
+  },
   "author": {
-    "name": "Stephen Pair",
-    "email": "stephen@bitpay.com"
+    "name": "Vincent Medina",
+    "email": "vincent@nexusocean.org"
   },
   "keywords": [
     "firo",
@@ -18,7 +21,7 @@
   ],
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/firoorg/bitcoind-rpc-zcoin.git"
+    "url": "git+https://github.com/nexusocean8/bitcoind-rpc-zcoin.git"
   },
   "license": "MIT",
   "type": "module",
@@ -83,7 +86,7 @@
     ]
   },
   "bugs": {
-    "url": "https://github.com/firoorg/bitcoind-rpc-zcoin/issues"
+    "url": "https://github.com/nexusocean8/bitcoind-rpc-zcoin/issues"
   },
-  "homepage": "https://github.com/firoorg/bitcoind-rpc-zcoin"
+  "homepage": "https://github.com/nexusocean8/bitcoind-rpc-zcoin"
 }
