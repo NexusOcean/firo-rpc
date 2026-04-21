@@ -1,4 +1,4 @@
-import axios, { AxiosInstance, AxiosError } from 'axios';
+import axios, { AxiosInstance, AxiosError, AxiosRequestConfig } from 'axios';
 import { Agent as HttpsAgent } from 'node:https';
 
 export interface RpcConfig {
@@ -9,6 +9,7 @@ export interface RpcConfig {
   protocol?: 'http' | 'https';
   timeout?: number;
   rejectUnauthorized?: boolean;
+  axiosOptions?: AxiosRequestConfig;
 }
 
 export interface RpcRequest {
@@ -50,6 +51,7 @@ export function buildHttpClient(config: RpcConfig): AxiosInstance {
     protocol = 'http',
     timeout = 30_000,
     rejectUnauthorized = true,
+    axiosOptions = {},
   } = config;
 
   const httpsAgent =
@@ -63,6 +65,7 @@ export function buildHttpClient(config: RpcConfig): AxiosInstance {
     auth: { username: user, password: pass },
     headers: { 'Content-Type': 'application/json' },
     httpsAgent,
+    ...axiosOptions,
   });
 }
 
