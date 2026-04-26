@@ -83,9 +83,8 @@ See the [`examples/`](./examples/) folder for runnable scenarios. All examples r
 ```bash
 npx tsx examples/search.ts <txid|height|address>
 npx tsx examples/wallet.ts <address>
-npx tsx examples/block-explorer.ts
-npx tsx examples/mempool-monitor.ts
-npx tsx examples/network-dashboard.ts
+npx tsx examples/search.ts
+npx tsx examples/network.ts
 ```
 
 ## License
