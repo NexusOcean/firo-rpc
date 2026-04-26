@@ -82,12 +82,7 @@ Use `getNetworkInfo` and `getPeerInfo` to visualize node connectivity and peer h
 
 See the [`examples/`](./examples/) folder for runnable scenarios. All examples require a `.env.test` file with your node credentials and use `tsx`:
 
-````bash
-npx tsx examples/search.ts <txid|height|address>
-npx tsx examples/wallet.ts <address>
-npx tsx examples/mempool.ts
-npx tsx examples/network.ts
-``` All examples use `tsx` and load credentials from `.env.test`:
+All examples use `tsx` and load credentials from `.env.test`:
 
 ```bash
 npx tsx examples/search.ts <txid|height|address>
@@ -95,7 +90,7 @@ npx tsx examples/wallet.ts <address>
 npx tsx examples/block-explorer.ts
 npx tsx examples/mempool-monitor.ts
 npx tsx examples/network-dashboard.ts
-````
+```
 
 ## License
 
