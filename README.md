@@ -82,8 +82,6 @@ Use `getNetworkInfo` and `getPeerInfo` to visualize node connectivity and peer h
 
 See the [`examples/`](./examples/) folder for runnable scenarios. All examples require a `.env.test` file with your node credentials and use `tsx`:
 
-All examples use `tsx` and load credentials from `.env.test`:
-
 ```bash
 npx tsx examples/search.ts <txid|height|address>
 npx tsx examples/wallet.ts <address>
