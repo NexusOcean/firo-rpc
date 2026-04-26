@@ -1,5 +1,18 @@
 # Changelog
 
+## 0.2.0 — 2026-04-26
+
+### Added
+
+- Typed methods on `FiroRpcClient`: `getBlockCount`, `getBlockHash`, `getBlock`, `getBlockchainInfo`, `getTxOutSetInfo`, `getRawTransaction`, `getMempoolInfo`, `getRawMempool`, `getMempoolEntry`, `getNetworkInfo`, `getPeerInfo`
+- Firo-specific response types: `Block`, `Transaction`, `Vin` union (`CoinbaseVin`, `StandardVin`, `SparkSpendVin`), `Vout`, `CbTx`, `ProUpServTx`, `FinalCommitment`, `BlockchainInfo`, `TxOutSetInfo`, `NetworkInfo`, `PeerInfo`, `MempoolInfo`, `MempoolEntry`, `RawMempool`
+- `TxType` enum covering types `0`, `2`, `5`, `6`, `8`, `9`, `14`
+
+### Changed
+
+- Source moved from `lib/` to `src/` and split into `utils/`, `types/`, and `client.ts`
+- `generic call<T>` and `batch` remain unchanged — fully backwards compatible
+
 ## 0.1.1 — 2026-04-21
 
 - Added missing `axiosOptions` to `RpcConfig` for passing axios request config

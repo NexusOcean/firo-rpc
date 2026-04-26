@@ -27,6 +27,6 @@
 
     "types": ["jest", "node"]
   },
-  "include": ["lib/**/*", "test/**/*", "constants.ts"],
+  "include": ["src/**/*", "test/**/*"],
   "exclude": ["node_modules", "dist"]
 }
