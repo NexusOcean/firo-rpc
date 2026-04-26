@@ -1,5 +1,14 @@
 # Changelog
 
+## 0.2.1 — 2026-04-26
+
+### Added
+
+- `getAddressBalance(address)` → `FiroAddressBalance` (requires `-addressindex`)
+- `getAddressTxIds(address)` → `FiroAddressTxIds` (requires `-addressindex`)
+- `FiroAddressBalance` and `FiroAddressTxIds` types exported from main entry point
+- `examples/` folder with runnable scenarios: `search.ts`, `wallet.ts`, `mempool.ts`, `network.ts`
+
 ## 0.2.0 — 2026-04-26
 
 ### Added

@@ -34,4 +34,6 @@ export type {
   MempoolInfo,
   MempoolEntry,
   RawMempool,
+  FiroAddressBalance,
+  FiroAddressTxIds,
 } from './types/index.js';

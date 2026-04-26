@@ -13,6 +13,8 @@ import type {
   MempoolInfo,
   MempoolEntry,
   RawMempool,
+  FiroAddressBalance,
+  FiroAddressTxIds,
 } from '../types/index.js';
 
 export interface FiroRpcClient {
@@ -37,6 +39,10 @@ export interface FiroRpcClient {
   // network
   getNetworkInfo(): Promise<NetworkInfo>;
   getPeerInfo(): Promise<PeerInfo[]>;
+
+  // address index (requires -addressindex on your node)
+  getAddressBalance(address: string): Promise<FiroAddressBalance>;
+  getAddressTxIds(address: string): Promise<FiroAddressTxIds>;
 }
 
 export function createFiroRpcClient(config: RpcConfig): FiroRpcClient {
@@ -53,15 +59,19 @@ export function createFiroRpcClient(config: RpcConfig): FiroRpcClient {
     getBlockCount(): Promise<number> {
       return callRpc<number>(http, 'getblockcount', []);
     },
+
     getBlockHash(height: number): Promise<string> {
       return callRpc<string>(http, 'getblockhash', [height]);
     },
+
     getBlock(hash: string): Promise<Block> {
       return callRpc<Block>(http, 'getblock', [hash, 2]);
     },
+
     getBlockchainInfo(): Promise<BlockchainInfo> {
       return callRpc<BlockchainInfo>(http, 'getblockchaininfo', []);
     },
+
     getTxOutSetInfo(): Promise<TxOutSetInfo> {
       return callRpc<TxOutSetInfo>(http, 'gettxoutsetinfo', []);
     },
@@ -73,9 +83,11 @@ export function createFiroRpcClient(config: RpcConfig): FiroRpcClient {
     getMempoolInfo(): Promise<MempoolInfo> {
       return callRpc<MempoolInfo>(http, 'getmempoolinfo', []);
     },
+
     getRawMempool(): Promise<RawMempool> {
       return callRpc<RawMempool>(http, 'getrawmempool', [true]);
     },
+
     getMempoolEntry(txid: string): Promise<MempoolEntry> {
       return callRpc<MempoolEntry>(http, 'getmempoolentry', [txid]);
     },
@@ -83,8 +95,17 @@ export function createFiroRpcClient(config: RpcConfig): FiroRpcClient {
     getNetworkInfo(): Promise<NetworkInfo> {
       return callRpc<NetworkInfo>(http, 'getnetworkinfo', []);
     },
+
     getPeerInfo(): Promise<PeerInfo[]> {
       return callRpc<PeerInfo[]>(http, 'getpeerinfo', []);
+    },
+
+    getAddressBalance(address: string): Promise<FiroAddressBalance> {
+      return callRpc<FiroAddressBalance>(http, 'getaddressbalance', [{ addresses: [address] }]);
+    },
+
+    getAddressTxIds(address: string): Promise<FiroAddressTxIds> {
+      return callRpc<FiroAddressTxIds>(http, 'getaddresstxids', [{ addresses: [address] }]);
     },
   };
 }

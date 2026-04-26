@@ -30,3 +30,5 @@ export type { ScriptSig, ScriptPubKey } from './shared.js';
 export type { NetworkInfo, PeerInfo } from './network.js';
 
 export type { MempoolInfo, MempoolEntry, RawMempool } from './mempool.js';
+
+export type { FiroAddressBalance, FiroAddressTxIds } from './address.js';

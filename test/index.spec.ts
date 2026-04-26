@@ -191,7 +191,7 @@ describe('FiroRpcClient (integration)', () => {
     it('returns a standard transaction with vin address fields', async () => {
       const block = await client.getBlock(bestHash);
       const standardTx = block.tx.find((tx) => tx.type === 0);
-      if (!standardTx) return; // skip if block has no standard txs
+      if (!standardTx) return;
       const tx = await client.getRawTransaction(standardTx.txid);
       expect(tx.type).toBe(0);
       const vin = tx.vin[0]! as { address?: string };
@@ -265,4 +265,8 @@ describe('FiroRpcClient (integration)', () => {
       expect(typeof peer.bytesrecv_per_msg).toBe('object');
     });
   });
+
+  // ─── address index ─────────────────────────────────────────────────────────
+  // TODO: add tests for getAddressBalance and getAddressTxIds
+  // Requires a known address with tx history — set a FIRO_TEST_ADDRESS in .env.test
 });
