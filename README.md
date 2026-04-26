@@ -84,7 +84,7 @@ See the [`examples/`](./examples/) folder for runnable scenarios. All examples r
 npx tsx examples/search.ts <txid|height|address>
 npx tsx examples/wallet.ts <address>
 npx tsx examples/search.ts
-npx tsx examples/network.ts
+npx tsx examples/mempool.ts
 ```
 
 ## License
