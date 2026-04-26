@@ -5,7 +5,7 @@ import tsparser from '@typescript-eslint/parser';
 export default [
   js.configs.recommended,
   {
-    files: ['lib/**/*.ts'],
+    files: ['src/**/*.ts'],
     languageOptions: {
       parser: tsparser,
       parserOptions: {
