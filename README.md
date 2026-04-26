@@ -64,8 +64,6 @@ Any unlisted RPC method is accessible via `client.call<T>(method, params)`.
 
 ## What You Can Build
 
-These are real use cases — the author's own [Firo block explorer](https://github.com/nexusocean) was built with this library.
-
 **Block Explorer & Search**
 Query blocks, transactions, and addresses with automatic query routing. The author's own Firo block explorer was built with this library. See [`examples/search.ts`](./examples/search.ts).
 
