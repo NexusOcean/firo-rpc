@@ -1,13 +1,13 @@
 {
   "name": "@nexusocean/firo-rpc",
   "description": "Modern TypeScript client for Firo's JSON-RPC interface",
-  "version": "0.2.1",
+  "version": "0.2.2",
   "publishConfig": {
     "access": "public"
   },
   "author": {
-    "name": "Vincent Medina",
-    "email": "vincent@nexusocean.org"
+    "name": "NexusOcean",
+    "email": "support@nexusocean.io"
   },
   "keywords": [
     "firo",
@@ -21,7 +21,7 @@
   ],
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/nexusocean8/bitcoind-rpc-zcoin.git"
+    "url": "git+https://github.com/nexusocean/bitcoind-rpc-zcoin.git"
   },
   "license": "MIT",
   "type": "module",
@@ -86,7 +86,7 @@
     ]
   },
   "bugs": {
-    "url": "https://github.com/nexusocean8/bitcoind-rpc-zcoin/issues"
+    "url": "https://github.com/nexusocean/bitcoind-rpc-zcoin/issues"
   },
-  "homepage": "https://github.com/nexusocean8/bitcoind-rpc-zcoin"
+  "homepage": "https://github.com/nexusocean/bitcoind-rpc-zcoin"
 }

@@ -89,4 +89,4 @@ npx tsx examples/network.ts
 
 ## License
 
-MIT — original copyright 2013–2014 BitPay, Inc. Rewritten and maintained by [nexusocean8](https://github.com/nexusocean8). Based on work by the [firoorg](https://github.com/firoorg) maintainers.
+MIT — original copyright 2013–2014 BitPay, Inc. Rewritten and maintained by [nexusocean](https://github.com/nexusocean). Based on work by the [firoorg](https://github.com/firoorg) maintainers.
