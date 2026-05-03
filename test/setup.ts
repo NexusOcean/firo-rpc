@@ -4,10 +4,8 @@ import type { FiroRpcClient } from '../src/index.js';
 
 const { parsed } = dotenv.config({ path: '.env.test' });
 
-const { FIRO_HOST, FIRO_USER, FIRO_PASS, FIRO_PORT, FIRO_PROTOCOL } = parsed as Record<
-  string,
-  string
->;
+const { FIRO_HOST, FIRO_USER, FIRO_PASS, FIRO_PORT, FIRO_PROTOCOL, FIRO_TEST_SEND } =
+  parsed as Record<string, string>;
 
 if (!FIRO_HOST || !FIRO_USER || !FIRO_PASS || !FIRO_PORT || !FIRO_PROTOCOL) {
   throw new Error('Missing required FIRO_* env vars in .env.test');
@@ -24,3 +22,5 @@ export const config = {
 export function makeClient(overrides: Partial<typeof config> = {}): FiroRpcClient {
   return createFiroRpcClient({ ...config, ...overrides });
 }
+
+export const shouldTestSend = FIRO_TEST_SEND === '1';

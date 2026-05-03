@@ -33,4 +33,12 @@ export type { MempoolInfo, MempoolEntry, RawMempool } from './mempool.js';
 
 export type { FiroAddressBalance, FiroAddressTxIds } from './address.js';
 
-export type { WalletInfo, ValidateAddressResult } from './wallet.js';
+export type {
+  WalletInfo,
+  ValidateAddressResult,
+  WalletTxCategory,
+  WalletTransactionDetail,
+  WalletTransactionListEntry,
+  WalletTransaction,
+  ListSinceBlockResult,
+} from './wallet.js';

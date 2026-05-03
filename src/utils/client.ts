@@ -17,6 +17,9 @@ import type {
   FiroAddressTxIds,
   WalletInfo,
   ValidateAddressResult,
+  WalletTransaction,
+  WalletTransactionListEntry,
+  ListSinceBlockResult,
 } from '../types/index.js';
 
 export interface FiroRpcClient {
@@ -56,6 +59,25 @@ export interface FiroRpcClient {
   validateAddress(address: string): Promise<ValidateAddressResult>;
   getBalance(minconf?: number): Promise<number>;
   getUnconfirmedBalance(): Promise<number>;
+  getTransaction(txid: string): Promise<WalletTransaction>;
+  listTransactions(
+    label?: string,
+    count?: number,
+    skip?: number,
+  ): Promise<WalletTransactionListEntry[]>;
+  listSinceBlock(
+    blockhash?: string,
+    targetConfirmations?: number,
+    includeWatchOnly?: boolean,
+  ): Promise<ListSinceBlockResult>;
+  sendToAddress(
+    address: string,
+    amount: number,
+    comment?: string,
+    commentTo?: string,
+    subtractFeeFromAmount?: boolean,
+  ): Promise<string>;
+  getReceivedByAddress(address: string, minconf?: number): Promise<number>;
 }
 
 export function createFiroRpcClient(config: RpcConfig): FiroRpcClient {
@@ -142,6 +164,48 @@ export function createFiroRpcClient(config: RpcConfig): FiroRpcClient {
 
     getUnconfirmedBalance(): Promise<number> {
       return callRpc<number>(http, 'getunconfirmedbalance', []);
+    },
+
+    getTransaction(txid: string): Promise<WalletTransaction> {
+      return callRpc<WalletTransaction>(http, 'gettransaction', [txid]);
+    },
+
+    listTransactions(
+      label: string = '*',
+      count: number = 10,
+      skip: number = 0,
+    ): Promise<WalletTransactionListEntry[]> {
+      return callRpc<WalletTransactionListEntry[]>(http, 'listtransactions', [label, count, skip]);
+    },
+
+    listSinceBlock(
+      blockhash?: string,
+      targetConfirmations: number = 1,
+      includeWatchOnly: boolean = false,
+    ): Promise<ListSinceBlockResult> {
+      const params: unknown[] = [];
+      if (blockhash !== undefined) {
+        params.push(blockhash, targetConfirmations, includeWatchOnly);
+      }
+      return callRpc<ListSinceBlockResult>(http, 'listsinceblock', params);
+    },
+
+    sendToAddress(
+      address: string,
+      amount: number,
+      comment?: string,
+      commentTo?: string,
+      subtractFeeFromAmount: boolean = false,
+    ): Promise<string> {
+      const params: unknown[] = [address, amount];
+      if (comment !== undefined || commentTo !== undefined || subtractFeeFromAmount) {
+        params.push(comment ?? '', commentTo ?? '', subtractFeeFromAmount);
+      }
+      return callRpc<string>(http, 'sendtoaddress', params);
+    },
+
+    getReceivedByAddress(address: string, minconf: number = 1): Promise<number> {
+      return callRpc<number>(http, 'getreceivedbyaddress', [address, minconf]);
     },
   };
 }
