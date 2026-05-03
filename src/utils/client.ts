@@ -15,6 +15,8 @@ import type {
   RawMempool,
   FiroAddressBalance,
   FiroAddressTxIds,
+  WalletInfo,
+  ValidateAddressResult,
 } from '../types/index.js';
 
 export interface FiroRpcClient {
@@ -30,10 +32,14 @@ export interface FiroRpcClient {
 
   // transactions
   getRawTransaction(txid: string): Promise<Transaction>;
+  getRawTransaction(txid: string, verbose: true): Promise<Transaction>;
+  getRawTransaction(txid: string, verbose: false): Promise<string>;
 
   // mempool
   getMempoolInfo(): Promise<MempoolInfo>;
   getRawMempool(): Promise<RawMempool>;
+  getRawMempool(verbose: true): Promise<RawMempool>;
+  getRawMempool(verbose: false): Promise<string[]>;
   getMempoolEntry(txid: string): Promise<MempoolEntry>;
 
   // network
@@ -43,6 +49,13 @@ export interface FiroRpcClient {
   // address index (requires -addressindex on your node)
   getAddressBalance(address: string): Promise<FiroAddressBalance>;
   getAddressTxIds(address: string): Promise<FiroAddressTxIds>;
+
+  // wallet
+  getWalletInfo(): Promise<WalletInfo>;
+  getNewAddress(label?: string): Promise<string>;
+  validateAddress(address: string): Promise<ValidateAddressResult>;
+  getBalance(minconf?: number): Promise<number>;
+  getUnconfirmedBalance(): Promise<number>;
 }
 
 export function createFiroRpcClient(config: RpcConfig): FiroRpcClient {
@@ -76,17 +89,20 @@ export function createFiroRpcClient(config: RpcConfig): FiroRpcClient {
       return callRpc<TxOutSetInfo>(http, 'gettxoutsetinfo', []);
     },
 
-    getRawTransaction(txid: string): Promise<Transaction> {
-      return callRpc<Transaction>(http, 'getrawtransaction', [txid, true]);
-    },
+    getRawTransaction: ((txid: string, verbose: boolean = true) =>
+      callRpc<Transaction | string>(http, 'getrawtransaction', [
+        txid,
+        verbose,
+      ])) as FiroRpcClient['getRawTransaction'],
 
     getMempoolInfo(): Promise<MempoolInfo> {
       return callRpc<MempoolInfo>(http, 'getmempoolinfo', []);
     },
 
-    getRawMempool(): Promise<RawMempool> {
-      return callRpc<RawMempool>(http, 'getrawmempool', [true]);
-    },
+    getRawMempool: ((verbose: boolean = true) =>
+      callRpc<RawMempool | string[]>(http, 'getrawmempool', [
+        verbose,
+      ])) as FiroRpcClient['getRawMempool'],
 
     getMempoolEntry(txid: string): Promise<MempoolEntry> {
       return callRpc<MempoolEntry>(http, 'getmempoolentry', [txid]);
@@ -106,6 +122,26 @@ export function createFiroRpcClient(config: RpcConfig): FiroRpcClient {
 
     getAddressTxIds(address: string): Promise<FiroAddressTxIds> {
       return callRpc<FiroAddressTxIds>(http, 'getaddresstxids', [{ addresses: [address] }]);
+    },
+
+    getWalletInfo(): Promise<WalletInfo> {
+      return callRpc<WalletInfo>(http, 'getwalletinfo', []);
+    },
+
+    getNewAddress(label?: string): Promise<string> {
+      return callRpc<string>(http, 'getnewaddress', label !== undefined ? [label] : []);
+    },
+
+    validateAddress(address: string): Promise<ValidateAddressResult> {
+      return callRpc<ValidateAddressResult>(http, 'validateaddress', [address]);
+    },
+
+    getBalance(minconf: number = 1): Promise<number> {
+      return callRpc<number>(http, 'getbalance', ['*', minconf]);
+    },
+
+    getUnconfirmedBalance(): Promise<number> {
+      return callRpc<number>(http, 'getunconfirmedbalance', []);
     },
   };
 }
