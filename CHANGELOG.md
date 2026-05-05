@@ -1,5 +1,17 @@
 # Changelog
 
+## 0.3.0 — 2026-05-05
+
+### Added
+
+- Wallet methods on `FiroRpcClient`: `getWalletInfo`, `getNewAddress`, `validateAddress`, `getBalance`, `getUnconfirmedBalance`, `getTransaction`, `listTransactions`, `listSinceBlock`, `sendToAddress`, `getReceivedByAddress`
+- Wallet types exported from main entry point: `WalletInfo`, `ValidateAddressResult`, `WalletTxCategory`, `WalletTransactionDetail`, `WalletTransactionListEntry`, `WalletTransaction`, `ListSinceBlockResult`
+- Verbose overloads on `getRawTransaction` and `getRawMempool` — pass `false` to receive raw hex / txid array, default behavior unchanged
+
+### Changed
+
+- `getRawTransaction` and `getRawMempool` implementations cast to overload-typed signatures; runtime behavior unchanged
+
 ## 0.2.1 — 2026-04-26
 
 ### Added
