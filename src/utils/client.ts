@@ -20,6 +20,9 @@ import type {
   WalletTransaction,
   WalletTransactionListEntry,
   ListSinceBlockResult,
+  BlockHeader,
+  TxOut,
+  UnspentOutput,
 } from '../types/index.js';
 
 export interface FiroRpcClient {
@@ -32,6 +35,10 @@ export interface FiroRpcClient {
   getBlock(hash: string): Promise<Block>;
   getBlockchainInfo(): Promise<BlockchainInfo>;
   getTxOutSetInfo(): Promise<TxOutSetInfo>;
+  getBestBlockHash(): Promise<string>;
+  getBlockHeader(hash: string): Promise<BlockHeader>;
+  getBlockHeader(hash: string, verbose: true): Promise<BlockHeader>;
+  getBlockHeader(hash: string, verbose: false): Promise<string>;
 
   // transactions
   getRawTransaction(txid: string): Promise<Transaction>;
@@ -78,6 +85,14 @@ export interface FiroRpcClient {
     subtractFeeFromAmount?: boolean,
   ): Promise<string>;
   getReceivedByAddress(address: string, minconf?: number): Promise<number>;
+  getTxOut(txid: string, n: number, includeMempool?: boolean): Promise<TxOut | null>;
+  listUnspent(
+    minconf?: number,
+    maxconf?: number,
+    addresses?: string[],
+    includeUnsafe?: boolean,
+  ): Promise<UnspentOutput[]>;
+  importAddress(address: string, label?: string, rescan?: boolean, p2sh?: boolean): Promise<void>;
 }
 
 export function createFiroRpcClient(config: RpcConfig): FiroRpcClient {
@@ -207,5 +222,27 @@ export function createFiroRpcClient(config: RpcConfig): FiroRpcClient {
     getReceivedByAddress(address: string, minconf: number = 1): Promise<number> {
       return callRpc<number>(http, 'getreceivedbyaddress', [address, minconf]);
     },
+
+    getBestBlockHash: () => callRpc<string>(http, 'getbestblockhash'),
+
+    getBlockHeader: ((hash: string, verbose: boolean = true) =>
+      callRpc<BlockHeader | string>(http, 'getblockheader', [
+        hash,
+        verbose,
+      ])) as FiroRpcClient['getBlockHeader'],
+
+    getTxOut: (txid, n, includeMempool = true) =>
+      callRpc<TxOut | null>(http, 'gettxout', [txid, n, includeMempool]),
+
+    listUnspent: (minconf = 1, maxconf = 9999999, addresses, includeUnsafe = true) =>
+      callRpc<UnspentOutput[]>(http, 'listunspent', [
+        minconf,
+        maxconf,
+        addresses ?? [],
+        includeUnsafe,
+      ]),
+
+    importAddress: (address, label = '', rescan = true, p2sh = false) =>
+      callRpc<void>(http, 'importaddress', [address, label, rescan, p2sh]),
   };
 }

@@ -22,3 +22,20 @@ export interface Block {
   nextblockhash?: string;
   chainlock: boolean;
 }
+
+export interface BlockHeader {
+  hash: string;
+  confirmations: number;
+  height: number;
+  version: number;
+  versionHex: string;
+  merkleroot: string;
+  time: number;
+  mediantime: number;
+  nonce: number;
+  bits: string;
+  difficulty: number;
+  chainwork: string;
+  previousblockhash?: string;
+  nextblockhash?: string;
+}

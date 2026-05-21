@@ -7,7 +7,7 @@ export type {
   BatchResult,
 } from './rpc.js';
 
-export type { Block } from './block.js';
+export type { Block, BlockHeader } from './block.js';
 
 export type { BlockchainInfo, Bip9SoftFork, SoftFork, TxOutSetInfo } from './blockchain.js';
 
@@ -42,3 +42,5 @@ export type {
   WalletTransaction,
   ListSinceBlockResult,
 } from './wallet.js';
+
+export type { TxOut, UnspentOutput } from './utxo.js';

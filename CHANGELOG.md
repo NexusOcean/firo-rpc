@@ -1,5 +1,13 @@
 # Changelog
 
+## 0.4.0 — 2026-05-20
+
+### Added
+
+- Blockchain methods on `FiroRpcClient`: `getBestBlockHash`, `getBlockHeader` (with verbose overloads), `getTxOut`
+- Wallet methods on `FiroRpcClient`: `listUnspent`, `importAddress`
+- New types exported from main entry point: `BlockHeader`, `TxOut`, `UnspentOutput`
+
 ## 0.3.0 — 2026-05-05
 
 ### Added
