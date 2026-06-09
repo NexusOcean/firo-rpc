@@ -27,7 +27,12 @@ export interface ValidateAddressResult {
   hdmasterkeyid?: string;
 }
 
-export type WalletTxCategory = 'send' | 'receive' | 'generate' | 'immature' | 'orphan';
+export type WalletTxCategory =
+  | 'send'
+  | 'receive'
+  | 'generate'
+  | 'immature'
+  | 'orphan';
 
 export interface WalletTransactionDetail {
   account: string;

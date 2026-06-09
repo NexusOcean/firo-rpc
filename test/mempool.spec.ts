@@ -38,6 +38,8 @@ describe('getRawMempool', () => {
 describe('getMempoolEntry', () => {
   it('throws RpcCallError for a txid not in mempool', async () => {
     const fakeTxid = 'a'.repeat(64);
-    await expect(client.getMempoolEntry(fakeTxid)).rejects.toBeInstanceOf(RpcCallError);
+    await expect(client.getMempoolEntry(fakeTxid)).rejects.toBeInstanceOf(
+      RpcCallError,
+    );
   });
 });

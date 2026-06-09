@@ -81,7 +81,9 @@ describe('listTransactions', () => {
     expect(typeof tx.amount).toBe('number');
     expect(typeof tx.confirmations).toBe('number');
     expect(typeof tx.address).toBe('string');
-    expect(['send', 'receive', 'generate', 'immature', 'orphan']).toContain(tx.category);
+    expect(['send', 'receive', 'generate', 'immature', 'orphan']).toContain(
+      tx.category,
+    );
     expect(typeof tx.time).toBe('number');
     expect(Array.isArray(tx.walletconflicts)).toBe(true);
   });

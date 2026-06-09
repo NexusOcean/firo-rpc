@@ -23,7 +23,10 @@ describe('call', () => {
   });
 
   it('returns a block with expected fields', async () => {
-    const block = await client.call<Record<string, unknown>>('getblock', bestHash);
+    const block = await client.call<Record<string, unknown>>(
+      'getblock',
+      bestHash,
+    );
     expect(block.hash).toBe(bestHash);
     expect(typeof block.height).toBe('number');
     expect(typeof block.time).toBe('number');
@@ -31,7 +34,9 @@ describe('call', () => {
   });
 
   it('throws RpcCallError on a bogus method', async () => {
-    await expect(client.call('not_a_real_rpc_method')).rejects.toBeInstanceOf(RpcCallError);
+    await expect(client.call('not_a_real_rpc_method')).rejects.toBeInstanceOf(
+      RpcCallError,
+    );
   });
 });
 

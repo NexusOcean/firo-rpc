@@ -85,14 +85,23 @@ export interface FiroRpcClient {
     subtractFeeFromAmount?: boolean,
   ): Promise<string>;
   getReceivedByAddress(address: string, minconf?: number): Promise<number>;
-  getTxOut(txid: string, n: number, includeMempool?: boolean): Promise<TxOut | null>;
+  getTxOut(
+    txid: string,
+    n: number,
+    includeMempool?: boolean,
+  ): Promise<TxOut | null>;
   listUnspent(
     minconf?: number,
     maxconf?: number,
     addresses?: string[],
     includeUnsafe?: boolean,
   ): Promise<UnspentOutput[]>;
-  importAddress(address: string, label?: string, rescan?: boolean, p2sh?: boolean): Promise<void>;
+  importAddress(
+    address: string,
+    label?: string,
+    rescan?: boolean,
+    p2sh?: boolean,
+  ): Promise<void>;
 }
 
 export function createFiroRpcClient(config: RpcConfig): FiroRpcClient {
@@ -154,11 +163,15 @@ export function createFiroRpcClient(config: RpcConfig): FiroRpcClient {
     },
 
     getAddressBalance(address: string): Promise<FiroAddressBalance> {
-      return callRpc<FiroAddressBalance>(http, 'getaddressbalance', [{ addresses: [address] }]);
+      return callRpc<FiroAddressBalance>(http, 'getaddressbalance', [
+        { addresses: [address] },
+      ]);
     },
 
     getAddressTxIds(address: string): Promise<FiroAddressTxIds> {
-      return callRpc<FiroAddressTxIds>(http, 'getaddresstxids', [{ addresses: [address] }]);
+      return callRpc<FiroAddressTxIds>(http, 'getaddresstxids', [
+        { addresses: [address] },
+      ]);
     },
 
     getWalletInfo(): Promise<WalletInfo> {
@@ -166,7 +179,11 @@ export function createFiroRpcClient(config: RpcConfig): FiroRpcClient {
     },
 
     getNewAddress(label?: string): Promise<string> {
-      return callRpc<string>(http, 'getnewaddress', label !== undefined ? [label] : []);
+      return callRpc<string>(
+        http,
+        'getnewaddress',
+        label !== undefined ? [label] : [],
+      );
     },
 
     validateAddress(address: string): Promise<ValidateAddressResult> {
@@ -190,7 +207,11 @@ export function createFiroRpcClient(config: RpcConfig): FiroRpcClient {
       count: number = 10,
       skip: number = 0,
     ): Promise<WalletTransactionListEntry[]> {
-      return callRpc<WalletTransactionListEntry[]>(http, 'listtransactions', [label, count, skip]);
+      return callRpc<WalletTransactionListEntry[]>(http, 'listtransactions', [
+        label,
+        count,
+        skip,
+      ]);
     },
 
     listSinceBlock(
@@ -213,13 +234,20 @@ export function createFiroRpcClient(config: RpcConfig): FiroRpcClient {
       subtractFeeFromAmount: boolean = false,
     ): Promise<string> {
       const params: unknown[] = [address, amount];
-      if (comment !== undefined || commentTo !== undefined || subtractFeeFromAmount) {
+      if (
+        comment !== undefined ||
+        commentTo !== undefined ||
+        subtractFeeFromAmount
+      ) {
         params.push(comment ?? '', commentTo ?? '', subtractFeeFromAmount);
       }
       return callRpc<string>(http, 'sendtoaddress', params);
     },
 
-    getReceivedByAddress(address: string, minconf: number = 1): Promise<number> {
+    getReceivedByAddress(
+      address: string,
+      minconf: number = 1,
+    ): Promise<number> {
       return callRpc<number>(http, 'getreceivedbyaddress', [address, minconf]);
     },
 
@@ -234,7 +262,12 @@ export function createFiroRpcClient(config: RpcConfig): FiroRpcClient {
     getTxOut: (txid, n, includeMempool = true) =>
       callRpc<TxOut | null>(http, 'gettxout', [txid, n, includeMempool]),
 
-    listUnspent: (minconf = 1, maxconf = 9999999, addresses, includeUnsafe = true) =>
+    listUnspent: (
+      minconf = 1,
+      maxconf = 9999999,
+      addresses,
+      includeUnsafe = true,
+    ) =>
       callRpc<UnspentOutput[]>(http, 'listunspent', [
         minconf,
         maxconf,

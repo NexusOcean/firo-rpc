@@ -4,7 +4,10 @@ const client = makeClient();
 
 describe('getBestBlockHash', () => {
   it('returns the tip hash matching getBlockHash at current height', async () => {
-    const [best, count] = await Promise.all([client.getBestBlockHash(), client.getBlockCount()]);
+    const [best, count] = await Promise.all([
+      client.getBestBlockHash(),
+      client.getBlockCount(),
+    ]);
     const tip = await client.getBlockHash(count);
     expect(best).toBe(tip);
     expect(best).toMatch(/^[0-9a-f]{64}$/);

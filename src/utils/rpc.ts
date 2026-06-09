@@ -1,5 +1,10 @@
 import { AxiosInstance, AxiosError } from 'axios';
-import type { RpcRequest, RpcResponse, BatchCall, BatchResult } from '../types/index.js';
+import type {
+  RpcRequest,
+  RpcResponse,
+  BatchCall,
+  BatchResult,
+} from '../types/index.js';
 
 export class RpcCallError extends Error {
   public readonly code: number;
@@ -39,13 +44,18 @@ export async function callRpc<T = unknown>(
     const axiosErr = err as AxiosError;
     const status = axiosErr.response?.status;
 
-    if (status === 401) throw new RpcCallError('Unauthorized: check user/pass', -401, 401);
+    if (status === 401)
+      throw new RpcCallError('Unauthorized: check user/pass', -401, 401);
     if (status === 403) throw new RpcCallError('Forbidden', -403, 403);
     if (status === 500 && typeof axiosErr.response?.data === 'string') {
       throw new RpcCallError(axiosErr.response.data, -500, 500);
     }
 
-    throw new RpcCallError(`RPC request failed: ${axiosErr.message}`, -1, status);
+    throw new RpcCallError(
+      `RPC request failed: ${axiosErr.message}`,
+      -1,
+      status,
+    );
   }
 }
 
@@ -74,7 +84,10 @@ export async function callRpcBatch(
     return requests.map((req) => {
       const res = byId.get(req.id);
       if (!res)
-        return { result: null, error: { code: -1, message: 'Missing response for request' } };
+        return {
+          result: null,
+          error: { code: -1, message: 'Missing response for request' },
+        };
       return { result: res.result, error: res.error };
     });
   } catch (err) {

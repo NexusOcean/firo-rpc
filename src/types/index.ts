@@ -9,7 +9,12 @@ export type {
 
 export type { Block, BlockHeader } from './block.js';
 
-export type { BlockchainInfo, Bip9SoftFork, SoftFork, TxOutSetInfo } from './blockchain.js';
+export type {
+  BlockchainInfo,
+  Bip9SoftFork,
+  SoftFork,
+  TxOutSetInfo,
+} from './blockchain.js';
 
 export type {
   Transaction,

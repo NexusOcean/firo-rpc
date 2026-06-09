@@ -10,10 +10,8 @@ import dotenv from 'dotenv';
 import { createFiroRpcClient } from '../src/utils/client.js';
 
 const { parsed } = dotenv.config({ path: '.env.test' });
-const { FIRO_HOST, FIRO_USER, FIRO_PASS, FIRO_PORT, FIRO_PROTOCOL } = parsed as Record<
-  string,
-  string
->;
+const { FIRO_HOST, FIRO_USER, FIRO_PASS, FIRO_PORT, FIRO_PROTOCOL } =
+  parsed as Record<string, string>;
 
 const client = createFiroRpcClient({
   host: FIRO_HOST,

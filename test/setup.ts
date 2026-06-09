@@ -26,7 +26,9 @@ export const config = {
   protocol: FIRO_PROTOCOL as 'http' | 'https',
 };
 
-export function makeClient(overrides: Partial<typeof config> = {}): FiroRpcClient {
+export function makeClient(
+  overrides: Partial<typeof config> = {},
+): FiroRpcClient {
   return createFiroRpcClient({ ...config, ...overrides });
 }
 

@@ -9,10 +9,8 @@ import dotenv from 'dotenv';
 import { createFiroRpcClient } from '../src/utils/client.js';
 
 const { parsed } = dotenv.config({ path: '.env.test' });
-const { FIRO_HOST, FIRO_USER, FIRO_PASS, FIRO_PORT, FIRO_PROTOCOL } = parsed as Record<
-  string,
-  string
->;
+const { FIRO_HOST, FIRO_USER, FIRO_PASS, FIRO_PORT, FIRO_PROTOCOL } =
+  parsed as Record<string, string>;
 
 const client = createFiroRpcClient({
   host: FIRO_HOST,
@@ -34,7 +32,9 @@ async function networkSummary() {
   console.log(`Connections:     ${networkInfo.connections}`);
   console.log(`Chain:           ${chainInfo.chain}`);
   console.log(`Blocks:          ${chainInfo.blocks}`);
-  console.log(`Verification:    ${(chainInfo.verificationprogress * 100).toFixed(2)}%`);
+  console.log(
+    `Verification:    ${(chainInfo.verificationprogress * 100).toFixed(2)}%`,
+  );
 
   console.log(`\nPeers (${peers.length}):`);
   for (const peer of peers) {

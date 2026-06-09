@@ -9,10 +9,8 @@ import dotenv from 'dotenv';
 import { createFiroRpcClient } from '../src/utils/client.js';
 
 const { parsed } = dotenv.config({ path: '.env.test' });
-const { FIRO_HOST, FIRO_USER, FIRO_PASS, FIRO_PORT, FIRO_PROTOCOL } = parsed as Record<
-  string,
-  string
->;
+const { FIRO_HOST, FIRO_USER, FIRO_PASS, FIRO_PORT, FIRO_PROTOCOL } =
+  parsed as Record<string, string>;
 
 const client = createFiroRpcClient({
   host: FIRO_HOST,
@@ -27,11 +25,15 @@ async function snapshot() {
   const mempool = await client.getRawMempool();
   const txids = Object.keys(mempool);
 
-  console.log(`Mempool: ${info.size} txs, ${(info.bytes / 1024).toFixed(1)} KB`);
+  console.log(
+    `Mempool: ${info.size} txs, ${(info.bytes / 1024).toFixed(1)} KB`,
+  );
   console.log(`Sample txids:`);
   for (const txid of txids.slice(0, 5)) {
     const entry = mempool[txid];
-    console.log(`  ${txid.slice(0, 16)}... fee: ${entry.fee} time: ${entry.time}`);
+    console.log(
+      `  ${txid.slice(0, 16)}... fee: ${entry.fee} time: ${entry.time}`,
+    );
   }
 }
 
