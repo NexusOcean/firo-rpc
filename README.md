@@ -1,10 +1,6 @@
 # firo-rpc
 
-Modern TypeScript client for Firo's JSON-RPC interface. Promise-based, strongly typed, with batch support.
-
-An opinionated rewrite of [firoorg/bitcoind-rpc-zcoin](https://github.com/firoorg/bitcoind-rpc-zcoin) using functional programming, async/await, and TypeScript. A [PR](https://github.com/firoorg/bitcoind-rpc-zcoin/pull/4) is open on the original repo — prefer that if merged.
-
-> Early release — may change frequently. See [CHANGELOG.md](./CHANGELOG.md) for version history and breaking changes.
+TypeScript client for Firo's JSON-RPC interface. Promise-based, strongly typed, with batch support. Built on Axios, targeting Node 24.
 
 ## Install
 
@@ -43,18 +39,51 @@ const hashes = await client.batch([
 
 All methods return typed responses. See `src/types/` for full type definitions.
 
+**Blockchain**
+
+| Method                    | Returns          |
+| ------------------------- | ---------------- |
+| `getBlockCount()`         | `number`         |
+| `getBlockHash(height)`    | `string`         |
+| `getBestBlockHash()`      | `string`         |
+| `getBlock(hash)`          | `Block`          |
+| `getBlockHeader(hash)`    | `BlockHeader`    |
+| `getBlockchainInfo()`     | `BlockchainInfo` |
+| `getTxOutSetInfo()`       | `TxOutSetInfo`   |
+| `getTxOut(txid, n)`       | `TxOut`          |
+| `getRawTransaction(txid)` | `Transaction`    |
+| `getMempoolInfo()`        | `MempoolInfo`    |
+| `getRawMempool()`         | `RawMempool`     |
+| `getMempoolEntry(txid)`   | `MempoolEntry`   |
+
+**Network**
+
+| Method             | Returns       |
+| ------------------ | ------------- |
+| `getNetworkInfo()` | `NetworkInfo` |
+| `getPeerInfo()`    | `PeerInfo[]`  |
+
+**Wallet**
+
+| Method                           | Returns                        |
+| -------------------------------- | ------------------------------ |
+| `getWalletInfo()`                | `WalletInfo`                   |
+| `getBalance()`                   | `number`                       |
+| `getUnconfirmedBalance()`        | `number`                       |
+| `getNewAddress()`                | `string`                       |
+| `validateAddress(address)`       | `ValidateAddressResult`        |
+| `getTransaction(txid)`           | `WalletTransaction`            |
+| `listTransactions()`             | `WalletTransactionListEntry[]` |
+| `listSinceBlock(hash?)`          | `ListSinceBlockResult`         |
+| `listUnspent()`                  | `UnspentOutput[]`              |
+| `sendToAddress(address, amount)` | `string`                       |
+| `getReceivedByAddress(address)`  | `number`                       |
+| `importAddress(address)`         | `void`                         |
+
+**Address Index**
+
 | Method                       | Returns              |
 | ---------------------------- | -------------------- |
-| `getBlockCount()`            | `number`             |
-| `getBlockHash(height)`       | `string`             |
-| `getBlock(hash)`             | `Block`              |
-| `getBlockchainInfo()`        | `BlockchainInfo`     |
-| `getTxOutSetInfo()`          | `TxOutSetInfo`       |
-| `getRawTransaction(txid)`    | `Transaction`        |
-| `getMempoolInfo()`           | `MempoolInfo`        |
-| `getRawMempool()`            | `RawMempool`         |
-| `getMempoolEntry(txid)`      | `MempoolEntry`       |
-| `getNetworkInfo()`           | `NetworkInfo`        |
 | `getAddressBalance(address)` | `FiroAddressBalance` |
 | `getAddressTxIds(address)`   | `FiroAddressTxIds`   |
 
@@ -65,7 +94,7 @@ Any unlisted RPC method is accessible via `client.call<T>(method, params)`.
 ## What You Can Build
 
 **Block Explorer & Search**
-Query blocks, transactions, and addresses with automatic query routing. The author's own Firo block explorer was built with this library. See [`examples/search.ts`](./examples/search.ts).
+Query blocks, transactions, and addresses with automatic query routing. See [`examples/search.ts`](./examples/search.ts).
 
 **Wallet Tooling**
 Look up address balance and transaction history. See [`examples/wallet.ts`](./examples/wallet.ts).
@@ -89,4 +118,4 @@ npx tsx examples/network.ts
 
 ## License
 
-MIT — original copyright 2013–2014 BitPay, Inc. Rewritten and maintained by [nexusocean](https://github.com/nexusocean). Based on work by the [firoorg](https://github.com/firoorg) maintainers.
+MIT
