@@ -43,4 +43,6 @@ export type {
   SparkAnonymitySet,
   // Fees
   FeeRate,
+  SmartFeeEstimate,
+  SmartPriorityEstimate,
 } from './types/index.js';
