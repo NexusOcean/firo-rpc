@@ -23,8 +23,9 @@ import type {
   BlockHeader,
   TxOut,
   UnspentOutput,
-  SparkAnonymitySetMeta,
+  SparkAnonymitySet,
   SparkAnonymitySetSector,
+  SparkAnonymitySetMeta,
 } from '../types/index.js';
 
 export interface FiroRpcClient {
@@ -107,6 +108,10 @@ export interface FiroRpcClient {
 
   // spark (read-only)
   getSparkLatestCoinId(): Promise<number>;
+  getSparkAnonymitySet(
+    coinGroupId: number,
+    startBlockHash: string,
+  ): Promise<SparkAnonymitySet>;
   getSparkAnonymitySetMeta(coinGroupId: number): Promise<SparkAnonymitySetMeta>;
   getSparkAnonymitySetSector(
     coinGroupId: number,
@@ -291,6 +296,12 @@ export function createFiroRpcClient(config: RpcConfig): FiroRpcClient {
       callRpc<void>(http, 'importaddress', [address, label, rescan, p2sh]),
 
     getSparkLatestCoinId: () => callRpc<number>(http, 'getsparklatestcoinid'),
+
+    getSparkAnonymitySet: (coinGroupId: number, startBlockHash: string) =>
+      callRpc<SparkAnonymitySet>(http, 'getsparkanonymityset', [
+        String(coinGroupId),
+        startBlockHash,
+      ]),
 
     getSparkAnonymitySetMeta: (coinGroupId: number) =>
       callRpc<SparkAnonymitySetMeta>(http, 'getsparkanonymitysetmeta', [

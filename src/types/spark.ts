@@ -13,3 +13,9 @@ export type SparkAnonymitySetCoin = [
 export interface SparkAnonymitySetSector {
   coins: SparkAnonymitySetCoin[];
 }
+
+export interface SparkAnonymitySet {
+  blockHash: string;
+  setHash: string;
+  coins: SparkAnonymitySetCoin[];
+}

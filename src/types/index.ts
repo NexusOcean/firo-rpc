@@ -51,6 +51,7 @@ export type {
 export type { TxOut, UnspentOutput } from './utxo.js';
 
 export type {
+  SparkAnonymitySet,
   SparkAnonymitySetMeta,
   SparkAnonymitySetSector,
   SparkAnonymitySetCoin,

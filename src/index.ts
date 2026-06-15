@@ -40,4 +40,5 @@ export type {
   SparkAnonymitySetMeta,
   SparkAnonymitySetSector,
   SparkAnonymitySetCoin,
+  SparkAnonymitySet,
 } from './types/index.js';
