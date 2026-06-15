@@ -49,3 +49,9 @@ export type {
 } from './wallet.js';
 
 export type { TxOut, UnspentOutput } from './utxo.js';
+
+export type {
+  SparkAnonymitySetMeta,
+  SparkAnonymitySetSector,
+  SparkAnonymitySetCoin,
+} from './spark.js';

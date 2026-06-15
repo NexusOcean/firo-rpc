@@ -36,4 +36,8 @@ export type {
   RawMempool,
   FiroAddressBalance,
   FiroAddressTxIds,
+  // Spark read-only
+  SparkAnonymitySetMeta,
+  SparkAnonymitySetSector,
+  SparkAnonymitySetCoin,
 } from './types/index.js';

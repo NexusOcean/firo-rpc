@@ -105,6 +105,16 @@ Poll `getMempoolInfo` and `getRawMempool` to watch unconfirmed transactions in r
 **Network Dashboard**
 Use `getNetworkInfo` and `getPeerInfo` to visualize node connectivity and peer health. See [`examples/network.ts`](./examples/network.ts).
 
+## Node Requirements
+
+Some methods require specific flags enabled on your Firo node. Add these to `firo.conf` (most index flags require a one-time `-reindex` if added after initial sync):
+
+| Flag             | Required for                                                   |
+| ---------------- | -------------------------------------------------------------- |
+| `txindex=1`      | `getRawTransaction` for non-wallet, non-mempool transactions   |
+| `addressindex=1` | `getAddressBalance`, `getAddressTxIds`                         |
+| `mobile=1`       | All Spark light-wallet methods (`getSparkAnonymitySet*`, etc.) |
+
 ## Examples
 
 See the [`examples/`](./examples/) folder for runnable scenarios. All examples require a `.env.test` file with your node credentials and use `tsx`:
