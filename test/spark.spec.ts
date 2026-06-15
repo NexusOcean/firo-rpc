@@ -41,3 +41,31 @@ describe('getSparkAnonymitySetSector', () => {
     expect(txHash).toMatch(/^[A-Za-z0-9+/]{43}=$/);
   });
 });
+
+describe('getSparkAnonymitySet', () => {
+  it('returns the anonymity set for coin group 1 from genesis', async () => {
+    const startHash = await client.getBlockHash(0);
+    const set = await client.getSparkAnonymitySet(1, startHash);
+    // base64-encoded 32-byte hashes
+    expect(set.blockHash).toMatch(/^[A-Za-z0-9+/]{43}=$/);
+    expect(set.setHash).toMatch(/^[A-Za-z0-9+/]{43}=$/);
+    expect(Array.isArray(set.coins)).toBe(true);
+    expect(set.coins.length).toBeGreaterThan(0);
+    const [serializedCoin, txHash, txMetadata] = set.coins[0]!;
+    expect(typeof serializedCoin).toBe('string');
+    expect(typeof txHash).toBe('string');
+    expect(typeof txMetadata).toBe('string');
+    expect(txHash).toMatch(/^[A-Za-z0-9+/]{43}=$/);
+  });
+});
+
+describe('getMempoolSparkTxIds', () => {
+  it('returns an array of base64 spark txids', async () => {
+    const txids = await client.getMempoolSparkTxIds();
+    expect(Array.isArray(txids)).toBe(true);
+    // mempool may be empty; only validate format if present
+    for (const txid of txids) {
+      expect(txid).toMatch(/^[A-Za-z0-9+/]{43}=$/);
+    }
+  });
+});
