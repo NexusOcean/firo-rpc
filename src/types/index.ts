@@ -56,3 +56,9 @@ export type {
   SparkAnonymitySetSector,
   SparkAnonymitySetCoin,
 } from './spark.js';
+
+export type {
+  FeeRate,
+  SmartFeeEstimate,
+  SmartPriorityEstimate,
+} from './fees.js';

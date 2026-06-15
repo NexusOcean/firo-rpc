@@ -41,4 +41,6 @@ export type {
   SparkAnonymitySetSector,
   SparkAnonymitySetCoin,
   SparkAnonymitySet,
+  // Fees
+  FeeRate,
 } from './types/index.js';
