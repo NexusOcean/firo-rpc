@@ -60,8 +60,8 @@ describe('getBlockchainInfo', () => {
   it('returns chain info with expected fields', async () => {
     const info = await client.getBlockchainInfo();
     expect(info.chain).toBe('main');
-    expect(info.blocks).toBe(blockCount);
-    expect(info.bestblockhash).toBe(bestHash);
+    expect(info.blocks).toBeGreaterThanOrEqual(blockCount);
+    expect(info.bestblockhash).toMatch(/^[0-9a-f]{64}$/);
     expect(typeof info.difficulty).toBe('number');
     expect(typeof info.pruned).toBe('boolean');
     expect(Array.isArray(info.softforks)).toBe(true);

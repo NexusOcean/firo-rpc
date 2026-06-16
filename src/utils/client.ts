@@ -322,7 +322,7 @@ export function createFiroRpcClient(config: RpcConfig): FiroRpcClient {
 
     getSparkAnonymitySetMeta: (coinGroupId: number) =>
       callRpc<SparkAnonymitySetMeta>(http, 'getsparkanonymitysetmeta', [
-        coinGroupId,
+        String(coinGroupId),
       ]),
 
     getSparkAnonymitySetSector: (
@@ -332,10 +332,10 @@ export function createFiroRpcClient(config: RpcConfig): FiroRpcClient {
       endIndex: number,
     ) =>
       callRpc<SparkAnonymitySetSector>(http, 'getsparkanonymitysetsector', [
-        coinGroupId,
+        String(coinGroupId),
         latestBlock,
-        startIndex,
-        endIndex,
+        String(startIndex),
+        String(endIndex),
       ]),
     getMempoolSparkTxIds: () => callRpc<string[]>(http, 'getmempoolsparktxids'),
 
