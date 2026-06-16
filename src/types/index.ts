@@ -55,6 +55,8 @@ export type {
   SparkAnonymitySetMeta,
   SparkAnonymitySetSector,
   SparkAnonymitySetCoin,
+  SparkName,
+  SparkNameData,
 } from './spark.js';
 
 export type {

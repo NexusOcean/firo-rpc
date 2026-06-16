@@ -1,6 +1,6 @@
+export type { FiroRpcClient } from './utils/client.js';
 export { createFiroRpcClient } from './utils/client.js';
 export { RpcCallError } from './utils/rpc.js';
-export type { FiroRpcClient } from './utils/client.js';
 
 export type {
   // RPC core
@@ -41,6 +41,8 @@ export type {
   SparkAnonymitySetSector,
   SparkAnonymitySetCoin,
   SparkAnonymitySet,
+  SparkName,
+  SparkNameData,
   // Fees
   FeeRate,
   SmartFeeEstimate,

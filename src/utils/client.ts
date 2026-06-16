@@ -29,6 +29,8 @@ import type {
   FeeRate,
   SmartFeeEstimate,
   SmartPriorityEstimate,
+  SparkName,
+  SparkNameData,
 } from '../types/index.js';
 
 export interface FiroRpcClient {
@@ -123,6 +125,10 @@ export interface FiroRpcClient {
     endIndex: number,
   ): Promise<SparkAnonymitySetSector>;
   getMempoolSparkTxIds(): Promise<string[]>;
+
+  // spark names
+  getSparkNames(fOnlyOwn?: boolean): Promise<SparkName[]>;
+  getSparkNameData(sparkname: string): Promise<SparkNameData>;
 
   // fees
   getFeeRate(): Promise<FeeRate>;
@@ -332,6 +338,12 @@ export function createFiroRpcClient(config: RpcConfig): FiroRpcClient {
         endIndex,
       ]),
     getMempoolSparkTxIds: () => callRpc<string[]>(http, 'getmempoolsparktxids'),
+
+    getSparkNames: (fOnlyOwn = false) =>
+      callRpc<SparkName[]>(http, 'getsparknames', [fOnlyOwn]),
+
+    getSparkNameData: (sparkname: string) =>
+      callRpc<SparkNameData>(http, 'getsparknamedata', [sparkname]),
 
     getFeeRate: () => callRpc<FeeRate>(http, 'getfeerate'),
 

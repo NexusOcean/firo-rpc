@@ -19,3 +19,16 @@ export interface SparkAnonymitySet {
   setHash: string;
   coins: SparkAnonymitySetCoin[];
 }
+
+export interface SparkName {
+  name: string;
+  address: string;
+  validUntil: number; // block height
+  additionalInfo?: string;
+}
+
+export interface SparkNameData {
+  address: string;
+  validUntil: number; // block height
+  additionalInfo?: string;
+}

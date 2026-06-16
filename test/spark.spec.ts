@@ -69,3 +69,41 @@ describe('getMempoolSparkTxIds', () => {
     }
   });
 });
+
+describe('getSparkNames', () => {
+  it('returns an array of spark names', async () => {
+    const names = await client.getSparkNames();
+    expect(Array.isArray(names)).toBe(true);
+    expect(names.length).toBeGreaterThan(0);
+  });
+
+  it('each entry has required fields', async () => {
+    const names = await client.getSparkNames();
+    for (const entry of names) {
+      expect(typeof entry.name).toBe('string');
+      expect(typeof entry.address).toBe('string');
+      expect(typeof entry.validUntil).toBe('number');
+      expect(entry.validUntil).toBeGreaterThan(0);
+      if (entry.additionalInfo !== undefined) {
+        expect(typeof entry.additionalInfo).toBe('string');
+      }
+    }
+  });
+});
+
+describe('getSparkNameData', () => {
+  it('returns data for a known name', async () => {
+    const data = await client.getSparkNameData('zerocoin');
+    expect(typeof data.address).toBe('string');
+    expect(data.address.startsWith('sm1')).toBe(true);
+    expect(typeof data.validUntil).toBe('number');
+    expect(data.validUntil).toBeGreaterThan(0);
+  });
+
+  it('additionalInfo is a string when present', async () => {
+    const data = await client.getSparkNameData('zerocoin');
+    if (data.additionalInfo !== undefined) {
+      expect(typeof data.additionalInfo).toBe('string');
+    }
+  });
+});
