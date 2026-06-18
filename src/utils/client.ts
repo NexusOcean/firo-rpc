@@ -31,6 +31,8 @@ import type {
   SmartPriorityEstimate,
   SparkName,
   SparkNameData,
+  SparkSendRecipients,
+  SparkAddressBalance,
 } from '../types/index.js';
 
 export interface FiroRpcClient {
@@ -129,6 +131,26 @@ export interface FiroRpcClient {
   // spark names
   getSparkNames(fOnlyOwn?: boolean): Promise<SparkName[]>;
   getSparkNameData(sparkname: string): Promise<SparkNameData>;
+  getSparkNameTxDetails(txid: string): Promise<SparkName>;
+  getSparkBalance(): Promise<number>;
+  getSparkAddressBalance(address: string): Promise<SparkAddressBalance>;
+  registerSparkName(
+    name: string,
+    sparkAddress: string,
+    years: number,
+    additionalData?: string,
+  ): Promise<string>;
+  requestSparkNameTransfer(
+    name: string,
+    newSparkAddress: string,
+    years: number,
+    oldSparkAddress: string,
+    additionalData?: string,
+  ): Promise<string>;
+  transferSparkName(
+    oldSparkAddress: string,
+    requestHash: string,
+  ): Promise<string>;
 
   // fees
   getFeeRate(): Promise<FeeRate>;
@@ -136,6 +158,9 @@ export interface FiroRpcClient {
   estimateSmartFee(nblocks: number): Promise<SmartFeeEstimate>;
   estimatePriority(nblocks: number): Promise<number>;
   estimateSmartPriority(nblocks: number): Promise<SmartPriorityEstimate>;
+
+  // spark send
+  sendSpark(recipients: SparkSendRecipients): Promise<string>;
 }
 
 export function createFiroRpcClient(config: RpcConfig): FiroRpcClient {
@@ -345,6 +370,49 @@ export function createFiroRpcClient(config: RpcConfig): FiroRpcClient {
     getSparkNameData: (sparkname: string) =>
       callRpc<SparkNameData>(http, 'getsparknamedata', [sparkname]),
 
+    getSparkNameTxDetails: (txid: string) =>
+      callRpc<SparkName>(http, 'getsparknametxdetails', [txid]),
+
+    getSparkBalance: () => callRpc<number>(http, 'getsparkbalance'),
+
+    getSparkAddressBalance: (address: string) =>
+      callRpc<SparkAddressBalance>(http, 'getsparkaddressbalance', [address]),
+
+    registerSparkName: (
+      name: string,
+      sparkAddress: string,
+      years: number,
+      additionalData?: string,
+    ) =>
+      callRpc<string>(
+        http,
+        'registersparkname',
+        additionalData !== undefined
+          ? [name, sparkAddress, years, additionalData]
+          : [name, sparkAddress, years],
+      ),
+
+    requestSparkNameTransfer: (
+      name: string,
+      newSparkAddress: string,
+      years: number,
+      oldSparkAddress: string,
+      additionalData?: string,
+    ) =>
+      callRpc<string>(
+        http,
+        'requestsparknametransfer',
+        additionalData !== undefined
+          ? [name, newSparkAddress, years, oldSparkAddress, additionalData]
+          : [name, newSparkAddress, years, oldSparkAddress],
+      ),
+
+    transferSparkName: (oldSparkAddress: string, requestHash: string) =>
+      callRpc<string>(http, 'transfersparkname', [
+        oldSparkAddress,
+        requestHash,
+      ]),
+
     getFeeRate: () => callRpc<FeeRate>(http, 'getfeerate'),
 
     estimateFee: (nblocks: number) =>
@@ -358,5 +426,8 @@ export function createFiroRpcClient(config: RpcConfig): FiroRpcClient {
 
     estimateSmartPriority: (nblocks: number) =>
       callRpc<SmartPriorityEstimate>(http, 'estimatesmartpriority', [nblocks]),
+
+    sendSpark: (recipients: SparkSendRecipients) =>
+      callRpc<string>(http, 'sendspark', [recipients]),
   };
 }

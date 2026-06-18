@@ -32,3 +32,17 @@ export interface SparkNameData {
   validUntil: number; // block height
   additionalInfo?: string;
 }
+
+export interface SparkRecipient {
+  amount: number;
+  subtractFee: boolean;
+  memo?: string;
+}
+
+export type SparkSendRecipients = Record<string, SparkRecipient>;
+
+export interface SparkAddressBalance {
+  availableBalance: number;
+  unconfirmedBalance: number;
+  fullBalance: number;
+}

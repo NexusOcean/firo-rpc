@@ -107,3 +107,59 @@ describe('getSparkNameData', () => {
     }
   });
 });
+
+describe('getSparkNameTxDetails', () => {
+  it('returns spark name details for a registration txid', async () => {
+    const details = await client.getSparkNameTxDetails(
+      '6e881bfcdf6fdf210e18fbbae861cfd88f820310e6f785ba3f2d7335bdf97b8e',
+    );
+    expect(typeof details.name).toBe('string');
+    expect(typeof details.address).toBe('string');
+    expect(details.address.startsWith('sm1')).toBe(true);
+    expect(typeof details.validUntil).toBe('number');
+    expect(details.validUntil).toBeGreaterThan(0);
+  });
+});
+
+describe('getSparkBalance', () => {
+  it('returns a non-negative number', async () => {
+    const balance = await client.getSparkBalance();
+    expect(typeof balance).toBe('number');
+    expect(balance).toBeGreaterThanOrEqual(0);
+  });
+});
+
+describe('getSparkAddressBalance', () => {
+  it('returns balance fields for a known address', async () => {
+    const balance = await client.getSparkAddressBalance(
+      'sm1kwyjxp6kthrt8nws7q3tk03s3nfwg6r4n6e9y5tr8kdd9zhy5zytprye4u3vxu7z92w8gdyh27xt0qmky3pajw0tthmyl3fgv2de53mynu9zwsl4v8azc85cvlplyw3aeufnl2gxrxz9w',
+    );
+    expect(typeof balance.availableBalance).toBe('number');
+    expect(typeof balance.unconfirmedBalance).toBe('number');
+    expect(typeof balance.fullBalance).toBe('number');
+  });
+});
+
+describe('sendSpark', () => {
+  it('is a function', () => {
+    expect(typeof client.sendSpark).toBe('function');
+  });
+});
+
+describe('registerSparkName', () => {
+  it('is a function', () => {
+    expect(typeof client.registerSparkName).toBe('function');
+  });
+});
+
+describe('requestSparkNameTransfer', () => {
+  it('is a function', () => {
+    expect(typeof client.requestSparkNameTransfer).toBe('function');
+  });
+});
+
+describe('transferSparkName', () => {
+  it('is a function', () => {
+    expect(typeof client.transferSparkName).toBe('function');
+  });
+});

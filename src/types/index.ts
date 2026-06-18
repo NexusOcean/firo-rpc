@@ -57,6 +57,9 @@ export type {
   SparkAnonymitySetCoin,
   SparkName,
   SparkNameData,
+  SparkRecipient,
+  SparkSendRecipients,
+  SparkAddressBalance,
 } from './spark.js';
 
 export type {
