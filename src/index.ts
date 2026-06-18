@@ -36,13 +36,16 @@ export type {
   RawMempool,
   FiroAddressBalance,
   FiroAddressTxIds,
-  // Spark read-only
+  // Spark
+  SparkAnonymitySet,
   SparkAnonymitySetMeta,
   SparkAnonymitySetSector,
   SparkAnonymitySetCoin,
-  SparkAnonymitySet,
   SparkName,
   SparkNameData,
+  SparkRecipient,
+  SparkSendRecipients,
+  SparkAddressBalance,
   // Fees
   FeeRate,
   SmartFeeEstimate,
