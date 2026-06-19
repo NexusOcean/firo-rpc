@@ -165,3 +165,175 @@ describe('transferSparkName', () => {
     expect(typeof client.transferSparkName).toBe('function');
   });
 });
+
+describe('getUsedCoinsTags', () => {
+  it('returns an array of base64 tags', async () => {
+    const result = await client.getUsedCoinsTags(0);
+    expect(Array.isArray(result.tags)).toBe(true);
+    expect(result.tags.length).toBeGreaterThan(0);
+    for (const tag of result.tags) {
+      expect(typeof tag).toBe('string');
+    }
+  });
+});
+
+describe('getNewSparkAddress', () => {
+  it('returns an array containing one spark address', async () => {
+    const addresses = await client.getNewSparkAddress();
+    expect(Array.isArray(addresses)).toBe(true);
+    expect(addresses.length).toBe(1);
+    expect(addresses[0]!.startsWith('sm1')).toBe(true);
+  });
+});
+
+describe('getAllSparkAddresses', () => {
+  it('returns a map of diversifier index to spark address', async () => {
+    const addresses = await client.getAllSparkAddresses();
+    const keys = Object.keys(addresses);
+    expect(keys.length).toBeGreaterThan(0);
+    for (const key of keys) {
+      expect(Number.isInteger(Number(key))).toBe(true);
+      expect(addresses[key]!.startsWith('sm1')).toBe(true);
+    }
+  });
+});
+
+describe('getSparkDefaultAddress', () => {
+  it('returns an array containing one spark address', async () => {
+    const addresses = await client.getSparkDefaultAddress();
+    expect(Array.isArray(addresses)).toBe(true);
+    expect(addresses.length).toBe(1);
+    expect(addresses[0]!.startsWith('sm1')).toBe(true);
+  });
+});
+
+describe('getTotalBalance', () => {
+  it('returns a non-negative number', async () => {
+    const balance = await client.getTotalBalance();
+    expect(typeof balance).toBe('number');
+    expect(balance).toBeGreaterThanOrEqual(0);
+  });
+});
+
+describe('getPrivateBalance', () => {
+  it('returns a non-negative number', async () => {
+    const balance = await client.getPrivateBalance();
+    expect(typeof balance).toBe('number');
+    expect(balance).toBeGreaterThanOrEqual(0);
+  });
+});
+
+describe('dumpSparkViewKey', () => {
+  it('returns a hex string', async () => {
+    const key = await client.dumpSparkViewKey();
+    expect(typeof key).toBe('string');
+    expect(key).toMatch(/^[0-9a-f]+$/);
+  });
+});
+
+describe('listSparkMints', () => {
+  it('returns an array of mints with expected fields', async () => {
+    const mints = await client.listSparkMints();
+    expect(Array.isArray(mints)).toBe(true);
+    expect(mints.length).toBeGreaterThan(0);
+    for (const mint of mints) {
+      expect(typeof mint.txid).toBe('string');
+      expect(typeof mint.nHeight).toBe('number');
+      expect(typeof mint.nId).toBe('number');
+      expect(typeof mint.isUsed).toBe('boolean');
+      expect(typeof mint.lTagHash).toBe('string');
+      expect(typeof mint.memo).toBe('string');
+      expect(typeof mint.scriptPubKey).toBe('string');
+      expect(typeof mint.amount).toBe('number');
+    }
+  });
+});
+
+describe('listSparkSpends', () => {
+  it('returns an array of spends with expected fields', async () => {
+    const spends = await client.listSparkSpends();
+    expect(Array.isArray(spends)).toBe(true);
+    for (const spend of spends) {
+      expect(typeof spend.txid).toBe('string');
+      expect(typeof spend.lTagHash).toBe('string');
+      expect(typeof spend.lTag).toBe('string');
+      expect(typeof spend.amount).toBe('number');
+    }
+  });
+});
+
+describe('listUnspentSparkMints', () => {
+  it('returns an array of unspent mints with a coin field', async () => {
+    const mints = await client.listUnspentSparkMints();
+    expect(Array.isArray(mints)).toBe(true);
+    expect(mints.length).toBeGreaterThan(0);
+    for (const mint of mints) {
+      expect(typeof mint.txid).toBe('string');
+      expect(typeof mint.nHeight).toBe('number');
+      expect(typeof mint.memo).toBe('string');
+      expect(typeof mint.scriptPubKey).toBe('string');
+      expect(typeof mint.amount).toBe('number');
+      expect(typeof mint.coin).toBe('string');
+    }
+  });
+});
+
+describe('identifySparkCoins', () => {
+  it('returns before/after balance fields for a known txid', async () => {
+    const result = await client.identifySparkCoins(
+      'd7a665a1a237d58d5eb2741b925d9971a06f97ac8eb79b83275212a0e18701c7',
+    );
+    expect(typeof result['Old availableBalance']).toBe('number');
+    expect(typeof result['Old unconfirmedBalance']).toBe('number');
+    expect(typeof result['Old fullBalance']).toBe('number');
+    expect(typeof result.availableBalance).toBe('number');
+    expect(typeof result.unconfirmedBalance).toBe('number');
+    expect(typeof result.fullBalance).toBe('number');
+  });
+});
+
+describe('getSparkCoinAddr', () => {
+  it('returns an array of coin address entries for a known txid', async () => {
+    const entries = await client.getSparkCoinAddr(
+      'd7a665a1a237d58d5eb2741b925d9971a06f97ac8eb79b83275212a0e18701c7',
+    );
+    expect(Array.isArray(entries)).toBe(true);
+    expect(entries.length).toBeGreaterThan(0);
+    for (const entry of entries) {
+      expect(entry.address.startsWith('sm1')).toBe(true);
+      expect(typeof entry.memo).toBe('string');
+      expect(typeof entry.amount).toBe('number');
+    }
+  });
+});
+
+describe('getMempoolSparkTxs', () => {
+  it('returns an object keyed by txid', async () => {
+    const result = await client.getMempoolSparkTxs([]);
+    expect(typeof result).toBe('object');
+  });
+});
+
+describe('setSparkMintStatus', () => {
+  it('is a function', () => {
+    expect(typeof client.setSparkMintStatus).toBe('function');
+  });
+});
+
+describe('mintSpark', () => {
+  it('is a function', () => {
+    expect(typeof client.mintSpark).toBe('function');
+  });
+});
+
+describe('autoMintSpark', () => {
+  it('is a function', () => {
+    expect(typeof client.autoMintSpark).toBe('function');
+  });
+});
+
+describe('resetSparkMints', () => {
+  it('is a function', () => {
+    expect(typeof client.resetSparkMints).toBe('function');
+  });
+});
