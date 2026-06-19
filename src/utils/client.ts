@@ -132,7 +132,7 @@ export interface FiroRpcClient {
   getSparkNames(fOnlyOwn?: boolean): Promise<SparkName[]>;
   getSparkNameData(sparkname: string): Promise<SparkNameData>;
   getSparkNameTxDetails(txid: string): Promise<SparkName>;
-  getSparkBalance(): Promise<number>;
+  getSparkBalance(): Promise<SparkAddressBalance>;
   getSparkAddressBalance(address: string): Promise<SparkAddressBalance>;
   registerSparkName(
     name: string,
@@ -373,10 +373,31 @@ export function createFiroRpcClient(config: RpcConfig): FiroRpcClient {
     getSparkNameTxDetails: (txid: string) =>
       callRpc<SparkName>(http, 'getsparknametxdetails', [txid]),
 
-    getSparkBalance: () => callRpc<number>(http, 'getsparkbalance'),
+    getSparkBalance: async () => {
+      const raw = await callRpc<Record<string, number>>(
+        http,
+        'getsparkbalance',
+        [],
+      );
+      return {
+        availableBalance: raw['availableBalance: '] ?? 0,
+        unconfirmedBalance: raw['unconfirmedBalance: '] ?? 0,
+        fullBalance: raw['fullBalance: '] ?? 0,
+      } as SparkAddressBalance;
+    },
 
-    getSparkAddressBalance: (address: string) =>
-      callRpc<SparkAddressBalance>(http, 'getsparkaddressbalance', [address]),
+    getSparkAddressBalance: async (address: string) => {
+      const raw = await callRpc<Record<string, number>>(
+        http,
+        'getsparkaddressbalance',
+        [address],
+      );
+      return {
+        availableBalance: raw['availableBalance: '] ?? 0,
+        unconfirmedBalance: raw['unconfirmedBalance: '] ?? 0,
+        fullBalance: raw['fullBalance: '] ?? 0,
+      };
+    },
 
     registerSparkName: (
       name: string,

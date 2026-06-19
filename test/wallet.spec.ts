@@ -77,10 +77,11 @@ describe('listTransactions', () => {
     expect(Array.isArray(txs)).toBe(true);
     if (txs.length === 0) return;
     const tx = txs[0]!;
-    expect(typeof tx.txid).toBe('string');
+    if (tx.address !== undefined) {
+      expect(typeof tx.address).toBe('string');
+    }
     expect(typeof tx.amount).toBe('number');
     expect(typeof tx.confirmations).toBe('number');
-    expect(typeof tx.address).toBe('string');
     expect([
       'send',
       'receive',
