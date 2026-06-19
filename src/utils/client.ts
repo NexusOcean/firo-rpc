@@ -33,6 +33,15 @@ import type {
   SparkNameData,
   SparkSendRecipients,
   SparkAddressBalance,
+  UsedCoinsTags,
+  SparkAddresses,
+  SparkMint,
+  SparkSpend,
+  UnspentSparkMint,
+  IdentifySparkCoinsResult,
+  SparkCoinAddress,
+  SparkMintRecipients,
+  MempoolSparkTxs,
 } from '../types/index.js';
 
 export interface FiroRpcClient {
@@ -161,6 +170,24 @@ export interface FiroRpcClient {
 
   // spark send
   sendSpark(recipients: SparkSendRecipients): Promise<string>;
+  getUsedCoinsTags(startIndex: number): Promise<UsedCoinsTags>;
+  getNewSparkAddress(): Promise<string[]>;
+  getAllSparkAddresses(): Promise<SparkAddresses>;
+  getSparkDefaultAddress(): Promise<string[]>;
+  getTotalBalance(): Promise<number>;
+  getPrivateBalance(): Promise<number>;
+  dumpSparkViewKey(): Promise<string>;
+  listSparkMints(): Promise<SparkMint[]>;
+  listSparkSpends(): Promise<SparkSpend[]>;
+  listUnspentSparkMints(): Promise<UnspentSparkMint[]>;
+  identifySparkCoins(txid: string): Promise<IdentifySparkCoinsResult>;
+  getSparkCoinAddr(txid: string): Promise<SparkCoinAddress[]>;
+  setSparkMintStatus(lTagHash: string, isUsed: boolean): Promise<null>;
+  mintSpark(
+    recipients: SparkMintRecipients,
+    subtractFeeFromAmount?: string[],
+  ): Promise<string[]>;
+  getMempoolSparkTxs(txids: string[]): Promise<MempoolSparkTxs>;
 }
 
 export function createFiroRpcClient(config: RpcConfig): FiroRpcClient {
@@ -450,5 +477,51 @@ export function createFiroRpcClient(config: RpcConfig): FiroRpcClient {
 
     sendSpark: (recipients: SparkSendRecipients) =>
       callRpc<string>(http, 'sendspark', [recipients]),
+
+    getUsedCoinsTags(startIndex: number): Promise<UsedCoinsTags> {
+      return callRpc<UsedCoinsTags>(http, 'getusedcoinstags', [startIndex]);
+    },
+
+    getNewSparkAddress: () => callRpc<string[]>(http, 'getnewsparkaddress'),
+
+    getAllSparkAddresses: () =>
+      callRpc<SparkAddresses>(http, 'getallsparkaddresses'),
+
+    getSparkDefaultAddress: () =>
+      callRpc<string[]>(http, 'getsparkdefaultaddress'),
+
+    getTotalBalance: () => callRpc<number>(http, 'gettotalbalance'),
+
+    getPrivateBalance: () => callRpc<number>(http, 'getprivatebalance'),
+
+    dumpSparkViewKey: () => callRpc<string>(http, 'dumpsparkviewkey'),
+
+    listSparkMints: () => callRpc<SparkMint[]>(http, 'listsparkmints'),
+
+    listSparkSpends: () => callRpc<SparkSpend[]>(http, 'listsparkspends'),
+
+    listUnspentSparkMints: () =>
+      callRpc<UnspentSparkMint[]>(http, 'listunspentsparkmints'),
+
+    identifySparkCoins: (txid: string) =>
+      callRpc<IdentifySparkCoinsResult>(http, 'identifysparkcoins', [txid]),
+
+    getSparkCoinAddr: (txid: string) =>
+      callRpc<SparkCoinAddress[]>(http, 'getsparkcoinaddr', [txid]),
+
+    setSparkMintStatus: (lTagHash: string, isUsed: boolean) =>
+      callRpc<null>(http, 'setsparkmintstatus', [lTagHash, isUsed]),
+
+    mintSpark: (
+      recipients: SparkMintRecipients,
+      subtractFeeFromAmount?: string[],
+    ) =>
+      callRpc<string[]>(http, 'mintspark', [
+        recipients,
+        subtractFeeFromAmount ?? [],
+      ]),
+
+    getMempoolSparkTxs: (txids: string[]) =>
+      callRpc<MempoolSparkTxs>(http, 'getmempoolsparktxs', [{ txids }]),
   };
 }

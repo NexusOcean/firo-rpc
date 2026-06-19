@@ -60,6 +60,16 @@ export type {
   SparkRecipient,
   SparkSendRecipients,
   SparkAddressBalance,
+  UsedCoinsTags,
+  SparkAddresses,
+  SparkMint,
+  SparkSpend,
+  UnspentSparkMint,
+  IdentifySparkCoinsResult,
+  SparkCoinAddress,
+  SparkMintRecipient,
+  SparkMintRecipients,
+  MempoolSparkTxs,
 } from './spark.js';
 
 export type {

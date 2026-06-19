@@ -46,3 +46,66 @@ export interface SparkAddressBalance {
   unconfirmedBalance: number;
   fullBalance: number;
 }
+
+export interface UsedCoinsTags {
+  tags: string[];
+}
+
+export interface SparkAddresses {
+  [diversifier: string]: string;
+}
+
+export interface SparkMint {
+  txid: string;
+  nHeight: number;
+  nId: number;
+  isUsed: boolean;
+  lTagHash: string;
+  memo: string;
+  scriptPubKey: string;
+  amount: number;
+}
+
+export interface SparkSpend {
+  txid: string;
+  lTagHash: string;
+  lTag: string;
+  amount: number;
+}
+
+export interface UnspentSparkMint {
+  txid: string;
+  nHeight: number;
+  memo: string;
+  scriptPubKey: string;
+  amount: number;
+  coin: string;
+}
+
+export interface IdentifySparkCoinsResult {
+  'Old availableBalance': number;
+  'Old unconfirmedBalance': number;
+  'Old fullBalance': number;
+  availableBalance: number;
+  unconfirmedBalance: number;
+  fullBalance: number;
+}
+
+export interface SparkCoinAddress {
+  address: string;
+  memo: string;
+  amount: number;
+}
+
+export interface SparkMintRecipient {
+  amount: number;
+  memo?: string;
+}
+
+export interface SparkMintRecipients {
+  [sparkAddress: string]: SparkMintRecipient;
+}
+
+export interface MempoolSparkTxs {
+  [txid: string]: unknown;
+}
