@@ -188,6 +188,8 @@ export interface FiroRpcClient {
     subtractFeeFromAmount?: string[],
   ): Promise<string[]>;
   getMempoolSparkTxs(txids: string[]): Promise<MempoolSparkTxs>;
+  resetSparkMints(): Promise<null>;
+  autoMintSpark(): Promise<string[]>;
 }
 
 export function createFiroRpcClient(config: RpcConfig): FiroRpcClient {
@@ -523,5 +525,9 @@ export function createFiroRpcClient(config: RpcConfig): FiroRpcClient {
 
     getMempoolSparkTxs: (txids: string[]) =>
       callRpc<MempoolSparkTxs>(http, 'getmempoolsparktxs', [{ txids }]),
+
+    resetSparkMints: () => callRpc<null>(http, 'resetsparkmints'),
+
+    autoMintSpark: () => callRpc<string[]>(http, 'automintspark'),
   };
 }
