@@ -36,6 +36,17 @@ export type {
   RawMempool,
   FiroAddressBalance,
   FiroAddressTxIds,
+  // Blockchain (extended)
+  BlockHeader,
+  TxOut,
+  // Wallet
+  WalletInfo,
+  ValidateAddressResult,
+  WalletTransaction,
+  WalletTransactionListEntry,
+  ListSinceBlockResult,
+  UnspentOutput,
+  UsedCoinsTags,
   // Spark
   SparkAnonymitySet,
   SparkAnonymitySetMeta,
@@ -46,6 +57,15 @@ export type {
   SparkRecipient,
   SparkSendRecipients,
   SparkAddressBalance,
+  SparkAddresses,
+  SparkMint,
+  SparkSpend,
+  UnspentSparkMint,
+  IdentifySparkCoinsResult,
+  SparkCoinAddress,
+  SparkMintRecipient,
+  SparkMintRecipients,
+  MempoolSparkTxs,
   // Fees
   FeeRate,
   SmartFeeEstimate,
