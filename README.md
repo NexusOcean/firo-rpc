@@ -80,6 +80,59 @@ All methods return typed responses. See `src/types/` for full type definitions.
 | `getReceivedByAddress(address)`  | `number`                       |
 | `importAddress(address)`         | `void`                         |
 
+**Spark — Anonymity Set & Mempool**
+
+| Method                                         | Returns                   |
+| ---------------------------------------------- | ------------------------- |
+| `getSparkLatestCoinId()`                       | `number`                  |
+| `getSparkAnonymitySet(coinGroupId, startHash)` | `SparkAnonymitySet`       |
+| `getSparkAnonymitySetMeta(coinGroupId)`        | `SparkAnonymitySetMeta`   |
+| `getSparkAnonymitySetSector(coinGroupId, ...)` | `SparkAnonymitySetSector` |
+| `getMempoolSparkTxIds()`                       | `string[]`                |
+| `getMempoolSparkTxs(txids)`                    | `MempoolSparkTxs`         |
+
+**Spark — Names**
+
+| Method                                         | Returns         |
+| ---------------------------------------------- | --------------- |
+| `getSparkNames(fOnlyOwn?)`                     | `SparkName[]`   |
+| `getSparkNameData(sparkname)`                  | `SparkNameData` |
+| `getSparkNameTxDetails(txid)`                  | `SparkName`     |
+| `registerSparkName(name, address, years, ...)` | `string`        |
+| `requestSparkNameTransfer(name, ...)`          | `string`        |
+| `transferSparkName(oldAddress, requestHash)`   | `string`        |
+
+**Spark — Balances & Addresses**
+
+| Method                         | Returns               |
+| ------------------------------ | --------------------- |
+| `getNewSparkAddress()`         | `string[]`            |
+| `getAllSparkAddresses()`       | `SparkAddresses`      |
+| `getSparkDefaultAddress()`     | `string[]`            |
+| `getSparkBalance()`            | `SparkAddressBalance` |
+| `getSparkAddressBalance(addr)` | `SparkAddressBalance` |
+| `getTotalBalance()`            | `number`              |
+| `getPrivateBalance()`          | `number`              |
+| `dumpSparkViewKey()`           | `string`              |
+
+**Spark — Mints & Spends**
+
+| Method                               | Returns                    |
+| ------------------------------------ | -------------------------- |
+| `getUsedCoinsTags(startIndex)`       | `UsedCoinsTags`            |
+| `listSparkMints()`                   | `SparkMint[]`              |
+| `listSparkSpends()`                  | `SparkSpend[]`             |
+| `listUnspentSparkMints()`            | `UnspentSparkMint[]`       |
+| `identifySparkCoins(txid)`           | `IdentifySparkCoinsResult` |
+| `getSparkCoinAddr(txid)`             | `SparkCoinAddress[]`       |
+| `setSparkMintStatus(lTagHash, used)` | `null`                     |
+| `mintSpark(recipients)`              | `string[]`                 |
+| `autoMintSpark()`                    | `string[]`                 |
+| `resetSparkMints()`                  | `null`                     |
+| `sendSpark(recipients)`              | `string`                   |
+
+> Spark methods require `mobile=1` in your node config (see Node Requirements below).
+
 **Address Index**
 
 | Method                       | Returns              |
@@ -128,4 +181,4 @@ npx tsx examples/network.ts
 
 ## License
 
-MIT
+ISC — Copyright (c) 2026, NexusOcean. See [LICENSE](./LICENSE).

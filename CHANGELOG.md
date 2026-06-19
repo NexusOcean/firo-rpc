@@ -1,5 +1,17 @@
 # Changelog
 
+## 0.5.0 — 2026-06-19
+
+### Added
+
+- Spark wallet methods on `FiroRpcClient`: `getUsedCoinsTags`, `getNewSparkAddress`, `getAllSparkAddresses`, `getSparkDefaultAddress`, `getTotalBalance`, `getPrivateBalance`, `dumpSparkViewKey`, `listSparkMints`, `listSparkSpends`, `listUnspentSparkMints`, `identifySparkCoins`, `getSparkCoinAddr`, `setSparkMintStatus`, `mintSpark`, `resetSparkMints`, `autoMintSpark`, `getMempoolSparkTxs`
+- Spark types exported from main entry point: `SparkAddresses`, `SparkMint`, `SparkSpend`, `UnspentSparkMint`, `IdentifySparkCoinsResult`, `SparkCoinAddress`, `SparkMintRecipient`, `SparkMintRecipients`, `MempoolSparkTxs`, `UsedCoinsTags`
+- Full Spark wallet test coverage in `test/spark.spec.ts`
+
+### Fixed
+
+- `getUsedCoinsTags` now stringifies its index parameter before sending — the daemon rejects a raw JSON number for this RPC and expects a string, consistent with `getSparkAnonymitySet`/`getSparkAnonymitySetMeta`/`getSparkAnonymitySetSector`
+
 ## 0.4.0 — 2026-05-20
 
 ### Added
