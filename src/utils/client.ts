@@ -481,7 +481,9 @@ export function createFiroRpcClient(config: RpcConfig): FiroRpcClient {
       callRpc<string>(http, 'sendspark', [recipients]),
 
     getUsedCoinsTags(startIndex: number): Promise<UsedCoinsTags> {
-      return callRpc<UsedCoinsTags>(http, 'getusedcoinstags', [startIndex]);
+      return callRpc<UsedCoinsTags>(http, 'getusedcoinstags', [
+        String(startIndex),
+      ]);
     },
 
     getNewSparkAddress: () => callRpc<string[]>(http, 'getnewsparkaddress'),
