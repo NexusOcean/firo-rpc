@@ -89,7 +89,6 @@ All methods return typed responses. See `src/types/` for full type definitions.
 | `getSparkAnonymitySetMeta(coinGroupId)`        | `SparkAnonymitySetMeta`   |
 | `getSparkAnonymitySetSector(coinGroupId, ...)` | `SparkAnonymitySetSector` |
 | `getMempoolSparkTxIds()`                       | `string[]`                |
-| `getMempoolSparkTxs(txids)`                    | `MempoolSparkTxs`         |
 
 **Spark — Names**
 
@@ -97,7 +96,6 @@ All methods return typed responses. See `src/types/` for full type definitions.
 | ---------------------------------------------- | --------------- |
 | `getSparkNames(fOnlyOwn?)`                     | `SparkName[]`   |
 | `getSparkNameData(sparkname)`                  | `SparkNameData` |
-| `getSparkNameTxDetails(txid)`                  | `SparkName`     |
 | `registerSparkName(name, address, years, ...)` | `string`        |
 | `requestSparkNameTransfer(name, ...)`          | `string`        |
 | `transferSparkName(oldAddress, requestHash)`   | `string`        |
@@ -158,6 +156,9 @@ Poll `getMempoolInfo` and `getRawMempool` to watch unconfirmed transactions in r
 **Network Dashboard**
 Use `getNetworkInfo` and `getPeerInfo` to visualize node connectivity and peer health. See [`examples/network.ts`](./examples/network.ts).
 
+**Spark Overview**
+Summarize wallet-level Spark balance, addresses, and recent mint activity. See [`examples/spark.ts`](./examples/spark.ts).
+
 ## Node Requirements
 
 Some methods require specific flags enabled on your Firo node. Add these to `firo.conf` (most index flags require a one-time `-reindex` if added after initial sync):
@@ -177,6 +178,7 @@ npx tsx examples/search.ts <txid|height|address>
 npx tsx examples/wallet.ts <address>
 npx tsx examples/mempool.ts
 npx tsx examples/network.ts
+npx tsx examples/spark.ts
 ```
 
 ## License
