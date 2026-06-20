@@ -89,6 +89,7 @@ describe('listTransactions', () => {
       'immature',
       'orphan',
       'spend',
+      'mint',
     ]).toContain(tx.category);
     expect(typeof tx.time).toBe('number');
     expect(Array.isArray(tx.walletconflicts)).toBe(true);
@@ -107,7 +108,9 @@ describe('getTransaction', () => {
     expect(Array.isArray(tx.details)).toBe(true);
     expect(tx.details.length).toBeGreaterThan(0);
     const detail = tx.details[0]!;
-    expect(typeof detail.address).toBe('string');
+    if (detail.address !== undefined) {
+      expect(typeof detail.address).toBe('string');
+    }
     expect(typeof detail.amount).toBe('number');
     expect(typeof detail.vout).toBe('number');
   });

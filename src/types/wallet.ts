@@ -11,7 +11,6 @@ export interface WalletInfo {
   hdmasterkeyid?: string;
   unlocked_until?: number;
 }
-
 export interface ValidateAddressResult {
   isvalid: boolean;
   address?: string;
@@ -26,17 +25,17 @@ export interface ValidateAddressResult {
   hdkeypath?: string;
   hdmasterkeyid?: string;
 }
-
 export type WalletTxCategory =
   | 'send'
   | 'receive'
   | 'generate'
   | 'immature'
-  | 'orphan';
-
+  | 'orphan'
+  | 'spend'
+  | 'mint';
 export interface WalletTransactionDetail {
   account: string;
-  address: string;
+  address?: string;
   category: WalletTxCategory;
   amount: number;
   label?: string;
@@ -44,7 +43,6 @@ export interface WalletTransactionDetail {
   fee?: number;
   abandoned?: boolean;
 }
-
 export interface WalletTransactionListEntry extends WalletTransactionDetail {
   confirmations: number;
   instantlock: boolean;
@@ -60,7 +58,6 @@ export interface WalletTransactionListEntry extends WalletTransactionDetail {
   comment?: string;
   to?: string;
 }
-
 export interface WalletTransaction {
   amount: number;
   fee?: number;
@@ -81,7 +78,6 @@ export interface WalletTransaction {
   comment?: string;
   to?: string;
 }
-
 export interface ListSinceBlockResult {
   transactions: WalletTransactionListEntry[];
   removed?: WalletTransactionListEntry[];
