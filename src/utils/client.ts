@@ -51,20 +51,21 @@ export interface FiroRpcClient {
   // blockchain
   getBlockCount(): Promise<number>;
   getBlockHash(height: number): Promise<string>;
-  getBlock(hash: string): Promise<Block>;
-  getBlockchainInfo(): Promise<BlockchainInfo>;
-  getTxOutSetInfo(): Promise<TxOutSetInfo>;
   getBestBlockHash(): Promise<string>;
+  getBlock(hash: string): Promise<Block>;
   getBlockHeader(hash: string): Promise<BlockHeader>;
   getBlockHeader(hash: string, verbose: true): Promise<BlockHeader>;
   getBlockHeader(hash: string, verbose: false): Promise<string>;
-
-  // transactions
+  getBlockchainInfo(): Promise<BlockchainInfo>;
+  getTxOutSetInfo(): Promise<TxOutSetInfo>;
+  getTxOut(
+    txid: string,
+    n: number,
+    includeMempool?: boolean,
+  ): Promise<TxOut | null>;
   getRawTransaction(txid: string): Promise<Transaction>;
   getRawTransaction(txid: string, verbose: true): Promise<Transaction>;
   getRawTransaction(txid: string, verbose: false): Promise<string>;
-
-  // mempool
   getMempoolInfo(): Promise<MempoolInfo>;
   getRawMempool(): Promise<RawMempool>;
   getRawMempool(verbose: true): Promise<RawMempool>;
@@ -75,16 +76,12 @@ export interface FiroRpcClient {
   getNetworkInfo(): Promise<NetworkInfo>;
   getPeerInfo(): Promise<PeerInfo[]>;
 
-  // address index (requires -addressindex on your node)
-  getAddressBalance(address: string): Promise<FiroAddressBalance>;
-  getAddressTxIds(address: string): Promise<FiroAddressTxIds>;
-
   // wallet
   getWalletInfo(): Promise<WalletInfo>;
-  getNewAddress(label?: string): Promise<string>;
-  validateAddress(address: string): Promise<ValidateAddressResult>;
   getBalance(minconf?: number): Promise<number>;
   getUnconfirmedBalance(): Promise<number>;
+  getNewAddress(label?: string): Promise<string>;
+  validateAddress(address: string): Promise<ValidateAddressResult>;
   getTransaction(txid: string): Promise<WalletTransaction>;
   listTransactions(
     label?: string,
@@ -96,6 +93,12 @@ export interface FiroRpcClient {
     targetConfirmations?: number,
     includeWatchOnly?: boolean,
   ): Promise<ListSinceBlockResult>;
+  listUnspent(
+    minconf?: number,
+    maxconf?: number,
+    addresses?: string[],
+    includeUnsafe?: boolean,
+  ): Promise<UnspentOutput[]>;
   sendToAddress(
     address: string,
     amount: number,
@@ -104,17 +107,6 @@ export interface FiroRpcClient {
     subtractFeeFromAmount?: boolean,
   ): Promise<string>;
   getReceivedByAddress(address: string, minconf?: number): Promise<number>;
-  getTxOut(
-    txid: string,
-    n: number,
-    includeMempool?: boolean,
-  ): Promise<TxOut | null>;
-  listUnspent(
-    minconf?: number,
-    maxconf?: number,
-    addresses?: string[],
-    includeUnsafe?: boolean,
-  ): Promise<UnspentOutput[]>;
   importAddress(
     address: string,
     label?: string,
@@ -122,7 +114,7 @@ export interface FiroRpcClient {
     p2sh?: boolean,
   ): Promise<void>;
 
-  // spark (read-only)
+  // spark - anonymity set & mempool
   getSparkLatestCoinId(): Promise<number>;
   getSparkAnonymitySet(
     coinGroupId: number,
@@ -137,12 +129,10 @@ export interface FiroRpcClient {
   ): Promise<SparkAnonymitySetSector>;
   getMempoolSparkTxIds(): Promise<string[]>;
 
-  // spark names
+  // spark - names
   getSparkNames(fOnlyOwn?: boolean): Promise<SparkName[]>;
   getSparkNameData(sparkname: string): Promise<SparkNameData>;
   getSparkNameTxDetails(txid: string): Promise<SparkName>;
-  getSparkBalance(): Promise<SparkAddressBalance>;
-  getSparkAddressBalance(address: string): Promise<SparkAddressBalance>;
   registerSparkName(
     name: string,
     sparkAddress: string,
@@ -161,22 +151,18 @@ export interface FiroRpcClient {
     requestHash: string,
   ): Promise<string>;
 
-  // fees
-  getFeeRate(): Promise<FeeRate>;
-  estimateFee(nblocks: number): Promise<number>;
-  estimateSmartFee(nblocks: number): Promise<SmartFeeEstimate>;
-  estimatePriority(nblocks: number): Promise<number>;
-  estimateSmartPriority(nblocks: number): Promise<SmartPriorityEstimate>;
-
-  // spark send
-  sendSpark(recipients: SparkSendRecipients): Promise<string>;
-  getUsedCoinsTags(startIndex: number): Promise<UsedCoinsTags>;
+  // spark - balances & addresses
   getNewSparkAddress(): Promise<string[]>;
   getAllSparkAddresses(): Promise<SparkAddresses>;
   getSparkDefaultAddress(): Promise<string[]>;
+  getSparkBalance(): Promise<SparkAddressBalance>;
+  getSparkAddressBalance(address: string): Promise<SparkAddressBalance>;
   getTotalBalance(): Promise<number>;
   getPrivateBalance(): Promise<number>;
   dumpSparkViewKey(): Promise<string>;
+
+  // spark - mints & spends
+  getUsedCoinsTags(startIndex: number): Promise<UsedCoinsTags>;
   listSparkMints(): Promise<SparkMint[]>;
   listSparkSpends(): Promise<SparkSpend[]>;
   listUnspentSparkMints(): Promise<UnspentSparkMint[]>;
@@ -187,9 +173,29 @@ export interface FiroRpcClient {
     recipients: SparkMintRecipients,
     subtractFeeFromAmount?: string[],
   ): Promise<string[]>;
-  getMempoolSparkTxs(txids: string[]): Promise<MempoolSparkTxs>;
-  resetSparkMints(): Promise<null>;
   autoMintSpark(): Promise<string[]>;
+  resetSparkMints(): Promise<null>;
+  /**
+   * Send Spark to one or more recipients.
+   *
+   * NOTE: firod returns a txid as soon as the transaction is constructed
+   * and signed — this does not guarantee the transaction broadcast
+   * successfully. Verify with getTransaction(txid) (check `confirmations`
+   * and `trusted`) before treating a send as final.
+   */
+  sendSpark(recipients: SparkSendRecipients): Promise<string>;
+  getMempoolSparkTxs(txids: string[]): Promise<MempoolSparkTxs>;
+
+  // address index (requires -addressindex on your node)
+  getAddressBalance(address: string): Promise<FiroAddressBalance>;
+  getAddressTxIds(address: string): Promise<FiroAddressTxIds>;
+
+  // fees
+  getFeeRate(): Promise<FeeRate>;
+  estimateFee(nblocks: number): Promise<number>;
+  estimateSmartFee(nblocks: number): Promise<SmartFeeEstimate>;
+  estimatePriority(nblocks: number): Promise<number>;
+  estimateSmartPriority(nblocks: number): Promise<SmartPriorityEstimate>;
 }
 
 export function createFiroRpcClient(config: RpcConfig): FiroRpcClient {
@@ -203,6 +209,7 @@ export function createFiroRpcClient(config: RpcConfig): FiroRpcClient {
       return callRpcBatch(http, calls);
     },
 
+    // blockchain
     getBlockCount(): Promise<number> {
       return callRpc<number>(http, 'getblockcount', []);
     },
@@ -211,9 +218,17 @@ export function createFiroRpcClient(config: RpcConfig): FiroRpcClient {
       return callRpc<string>(http, 'getblockhash', [height]);
     },
 
+    getBestBlockHash: () => callRpc<string>(http, 'getbestblockhash'),
+
     getBlock(hash: string): Promise<Block> {
       return callRpc<Block>(http, 'getblock', [hash, 2]);
     },
+
+    getBlockHeader: ((hash: string, verbose: boolean = true) =>
+      callRpc<BlockHeader | string>(http, 'getblockheader', [
+        hash,
+        verbose,
+      ])) as FiroRpcClient['getBlockHeader'],
 
     getBlockchainInfo(): Promise<BlockchainInfo> {
       return callRpc<BlockchainInfo>(http, 'getblockchaininfo', []);
@@ -222,6 +237,9 @@ export function createFiroRpcClient(config: RpcConfig): FiroRpcClient {
     getTxOutSetInfo(): Promise<TxOutSetInfo> {
       return callRpc<TxOutSetInfo>(http, 'gettxoutsetinfo', []);
     },
+
+    getTxOut: (txid, n, includeMempool = true) =>
+      callRpc<TxOut | null>(http, 'gettxout', [txid, n, includeMempool]),
 
     getRawTransaction: ((txid: string, verbose: boolean = true) =>
       callRpc<Transaction | string>(http, 'getrawtransaction', [
@@ -242,6 +260,7 @@ export function createFiroRpcClient(config: RpcConfig): FiroRpcClient {
       return callRpc<MempoolEntry>(http, 'getmempoolentry', [txid]);
     },
 
+    // network
     getNetworkInfo(): Promise<NetworkInfo> {
       return callRpc<NetworkInfo>(http, 'getnetworkinfo', []);
     },
@@ -250,20 +269,17 @@ export function createFiroRpcClient(config: RpcConfig): FiroRpcClient {
       return callRpc<PeerInfo[]>(http, 'getpeerinfo', []);
     },
 
-    getAddressBalance(address: string): Promise<FiroAddressBalance> {
-      return callRpc<FiroAddressBalance>(http, 'getaddressbalance', [
-        { addresses: [address] },
-      ]);
-    },
-
-    getAddressTxIds(address: string): Promise<FiroAddressTxIds> {
-      return callRpc<FiroAddressTxIds>(http, 'getaddresstxids', [
-        { addresses: [address] },
-      ]);
-    },
-
+    // wallet
     getWalletInfo(): Promise<WalletInfo> {
       return callRpc<WalletInfo>(http, 'getwalletinfo', []);
+    },
+
+    getBalance(minconf: number = 1): Promise<number> {
+      return callRpc<number>(http, 'getbalance', ['*', minconf]);
+    },
+
+    getUnconfirmedBalance(): Promise<number> {
+      return callRpc<number>(http, 'getunconfirmedbalance', []);
     },
 
     getNewAddress(label?: string): Promise<string> {
@@ -276,14 +292,6 @@ export function createFiroRpcClient(config: RpcConfig): FiroRpcClient {
 
     validateAddress(address: string): Promise<ValidateAddressResult> {
       return callRpc<ValidateAddressResult>(http, 'validateaddress', [address]);
-    },
-
-    getBalance(minconf: number = 1): Promise<number> {
-      return callRpc<number>(http, 'getbalance', ['*', minconf]);
-    },
-
-    getUnconfirmedBalance(): Promise<number> {
-      return callRpc<number>(http, 'getunconfirmedbalance', []);
     },
 
     getTransaction(txid: string): Promise<WalletTransaction> {
@@ -314,6 +322,19 @@ export function createFiroRpcClient(config: RpcConfig): FiroRpcClient {
       return callRpc<ListSinceBlockResult>(http, 'listsinceblock', params);
     },
 
+    listUnspent: (
+      minconf = 1,
+      maxconf = 9999999,
+      addresses,
+      includeUnsafe = true,
+    ) =>
+      callRpc<UnspentOutput[]>(http, 'listunspent', [
+        minconf,
+        maxconf,
+        addresses ?? [],
+        includeUnsafe,
+      ]),
+
     sendToAddress(
       address: string,
       amount: number,
@@ -339,33 +360,10 @@ export function createFiroRpcClient(config: RpcConfig): FiroRpcClient {
       return callRpc<number>(http, 'getreceivedbyaddress', [address, minconf]);
     },
 
-    getBestBlockHash: () => callRpc<string>(http, 'getbestblockhash'),
-
-    getBlockHeader: ((hash: string, verbose: boolean = true) =>
-      callRpc<BlockHeader | string>(http, 'getblockheader', [
-        hash,
-        verbose,
-      ])) as FiroRpcClient['getBlockHeader'],
-
-    getTxOut: (txid, n, includeMempool = true) =>
-      callRpc<TxOut | null>(http, 'gettxout', [txid, n, includeMempool]),
-
-    listUnspent: (
-      minconf = 1,
-      maxconf = 9999999,
-      addresses,
-      includeUnsafe = true,
-    ) =>
-      callRpc<UnspentOutput[]>(http, 'listunspent', [
-        minconf,
-        maxconf,
-        addresses ?? [],
-        includeUnsafe,
-      ]),
-
     importAddress: (address, label = '', rescan = true, p2sh = false) =>
       callRpc<void>(http, 'importaddress', [address, label, rescan, p2sh]),
 
+    // spark - anonymity set & mempool
     getSparkLatestCoinId: () => callRpc<number>(http, 'getsparklatestcoinid'),
 
     getSparkAnonymitySet: (coinGroupId: number, startBlockHash: string) =>
@@ -391,8 +389,10 @@ export function createFiroRpcClient(config: RpcConfig): FiroRpcClient {
         String(startIndex),
         String(endIndex),
       ]),
+
     getMempoolSparkTxIds: () => callRpc<string[]>(http, 'getmempoolsparktxids'),
 
+    // spark - names
     getSparkNames: (fOnlyOwn = false) =>
       callRpc<SparkName[]>(http, 'getsparknames', [fOnlyOwn]),
 
@@ -401,32 +401,6 @@ export function createFiroRpcClient(config: RpcConfig): FiroRpcClient {
 
     getSparkNameTxDetails: (txid: string) =>
       callRpc<SparkName>(http, 'getsparknametxdetails', [txid]),
-
-    getSparkBalance: async () => {
-      const raw = await callRpc<Record<string, number>>(
-        http,
-        'getsparkbalance',
-        [],
-      );
-      return {
-        availableBalance: raw['availableBalance: '] ?? 0,
-        unconfirmedBalance: raw['unconfirmedBalance: '] ?? 0,
-        fullBalance: raw['fullBalance: '] ?? 0,
-      } as SparkAddressBalance;
-    },
-
-    getSparkAddressBalance: async (address: string) => {
-      const raw = await callRpc<Record<string, number>>(
-        http,
-        'getsparkaddressbalance',
-        [address],
-      );
-      return {
-        availableBalance: raw['availableBalance: '] ?? 0,
-        unconfirmedBalance: raw['unconfirmedBalance: '] ?? 0,
-        fullBalance: raw['fullBalance: '] ?? 0,
-      };
-    },
 
     registerSparkName: (
       name: string,
@@ -463,29 +437,7 @@ export function createFiroRpcClient(config: RpcConfig): FiroRpcClient {
         requestHash,
       ]),
 
-    getFeeRate: () => callRpc<FeeRate>(http, 'getfeerate'),
-
-    estimateFee: (nblocks: number) =>
-      callRpc<number>(http, 'estimatefee', [nblocks]),
-
-    estimateSmartFee: (nblocks: number) =>
-      callRpc<SmartFeeEstimate>(http, 'estimatesmartfee', [nblocks]),
-
-    estimatePriority: (nblocks: number) =>
-      callRpc<number>(http, 'estimatepriority', [nblocks]),
-
-    estimateSmartPriority: (nblocks: number) =>
-      callRpc<SmartPriorityEstimate>(http, 'estimatesmartpriority', [nblocks]),
-
-    sendSpark: (recipients: SparkSendRecipients) =>
-      callRpc<string>(http, 'sendspark', [recipients]),
-
-    getUsedCoinsTags(startIndex: number): Promise<UsedCoinsTags> {
-      return callRpc<UsedCoinsTags>(http, 'getusedcoinstags', [
-        String(startIndex),
-      ]);
-    },
-
+    // spark - balances & addresses
     getNewSparkAddress: () => callRpc<string[]>(http, 'getnewsparkaddress'),
 
     getAllSparkAddresses: () =>
@@ -494,11 +446,44 @@ export function createFiroRpcClient(config: RpcConfig): FiroRpcClient {
     getSparkDefaultAddress: () =>
       callRpc<string[]>(http, 'getsparkdefaultaddress'),
 
+    getSparkBalance: async () => {
+      const raw = await callRpc<Record<string, number>>(
+        http,
+        'getsparkbalance',
+        [],
+      );
+      return {
+        availableBalance: raw['availableBalance: '] ?? 0,
+        unconfirmedBalance: raw['unconfirmedBalance: '] ?? 0,
+        fullBalance: raw['fullBalance: '] ?? 0,
+      } as SparkAddressBalance;
+    },
+
+    getSparkAddressBalance: async (address: string) => {
+      const raw = await callRpc<Record<string, number>>(
+        http,
+        'getsparkaddressbalance',
+        [address],
+      );
+      return {
+        availableBalance: raw['availableBalance: '] ?? 0,
+        unconfirmedBalance: raw['unconfirmedBalance: '] ?? 0,
+        fullBalance: raw['fullBalance: '] ?? 0,
+      };
+    },
+
     getTotalBalance: () => callRpc<number>(http, 'gettotalbalance'),
 
     getPrivateBalance: () => callRpc<number>(http, 'getprivatebalance'),
 
     dumpSparkViewKey: () => callRpc<string>(http, 'dumpsparkviewkey'),
+
+    // spark - mints & spends
+    getUsedCoinsTags(startIndex: number): Promise<UsedCoinsTags> {
+      return callRpc<UsedCoinsTags>(http, 'getusedcoinstags', [
+        String(startIndex),
+      ]);
+    },
 
     listSparkMints: () => callRpc<SparkMint[]>(http, 'listsparkmints'),
 
@@ -525,11 +510,43 @@ export function createFiroRpcClient(config: RpcConfig): FiroRpcClient {
         subtractFeeFromAmount ?? [],
       ]),
 
-    getMempoolSparkTxs: (txids: string[]) =>
-      callRpc<MempoolSparkTxs>(http, 'getmempoolsparktxs', [{ txids }]),
+    autoMintSpark: () => callRpc<string[]>(http, 'automintspark'),
 
     resetSparkMints: () => callRpc<null>(http, 'resetsparkmints'),
 
-    autoMintSpark: () => callRpc<string[]>(http, 'automintspark'),
+    // tx id can be created, but never broadcasted. does not confirm success.
+    sendSpark: (recipients: SparkSendRecipients) =>
+      callRpc<string>(http, 'sendspark', [recipients]),
+
+    getMempoolSparkTxs: (txids: string[]) =>
+      callRpc<MempoolSparkTxs>(http, 'getmempoolsparktxs', [{ txids }]),
+
+    // address index
+    getAddressBalance(address: string): Promise<FiroAddressBalance> {
+      return callRpc<FiroAddressBalance>(http, 'getaddressbalance', [
+        { addresses: [address] },
+      ]);
+    },
+
+    getAddressTxIds(address: string): Promise<FiroAddressTxIds> {
+      return callRpc<FiroAddressTxIds>(http, 'getaddresstxids', [
+        { addresses: [address] },
+      ]);
+    },
+
+    // fees
+    getFeeRate: () => callRpc<FeeRate>(http, 'getfeerate'),
+
+    estimateFee: (nblocks: number) =>
+      callRpc<number>(http, 'estimatefee', [nblocks]),
+
+    estimateSmartFee: (nblocks: number) =>
+      callRpc<SmartFeeEstimate>(http, 'estimatesmartfee', [nblocks]),
+
+    estimatePriority: (nblocks: number) =>
+      callRpc<number>(http, 'estimatepriority', [nblocks]),
+
+    estimateSmartPriority: (nblocks: number) =>
+      callRpc<SmartPriorityEstimate>(http, 'estimatesmartpriority', [nblocks]),
   };
 }

@@ -140,6 +140,16 @@ All methods return typed responses. See `src/types/` for full type definitions.
 
 > `getAddressBalance` and `getAddressTxIds` require `-addressindex` enabled on your Firo node.
 
+**Fees**
+
+| Method                           | Returns                 |
+| -------------------------------- | ----------------------- |
+| `getFeeRate()`                   | `FeeRate`               |
+| `estimateFee(nblocks)`           | `number`                |
+| `estimateSmartFee(nblocks)`      | `SmartFeeEstimate`      |
+| `estimatePriority(nblocks)`      | `number`                |
+| `estimateSmartPriority(nblocks)` | `SmartPriorityEstimate` |
+
 Any unlisted RPC method is accessible via `client.call<T>(method, params)`.
 
 ## What You Can Build
