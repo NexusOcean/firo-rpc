@@ -21,3 +21,13 @@ Full flow for reference:
 ## `getsparknametxdetails`
 
 Returns `-25 Unknown transaction` on mainnet for all tested inputs.
+
+## Evo / Masternode methods
+
+Named as a deliverable, roughly 30+ sub-commands across protx, evoznode, evoznsync, quorum, bls, spork, removeislock.
+
+Needs clarification:
+
+- Which sub-commands are needed, or would you like them all?
+- Should each sub-command be its own typed method (e.g. `protxList()`, `protxInfo()`)
+  or a generic dispatcher (e.g. `protx(subcommand, ...args)`)?
