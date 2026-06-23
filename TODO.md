@@ -21,5 +21,3 @@ Full flow for reference:
 ## `getsparknametxdetails`
 
 Returns `-25 Unknown transaction` on mainnet for all tested inputs.
-Confirmed working on regtest via direct firod. Not available on ElectrumX.
-Valid Spark name registration tx hash format unconfirmed against live data.
