@@ -42,6 +42,13 @@ import type {
   SparkCoinAddress,
   SparkMintRecipients,
   MempoolSparkTxs,
+  RawTxInput,
+  RawTxOutput,
+  DecodeRawTransactionResult,
+  DecodeScriptResult,
+  FundRawTransactionResult,
+  SignRawTransactionResult,
+  PrevTx,
 } from '../types/index.js';
 
 export interface FiroRpcClient {
@@ -208,6 +215,26 @@ export interface FiroRpcClient {
   estimateSmartFee(nblocks: number): Promise<SmartFeeEstimate>;
   estimatePriority(nblocks: number): Promise<number>;
   estimateSmartPriority(nblocks: number): Promise<SmartPriorityEstimate>;
+
+  // raw transactions
+  createRawTransaction(
+    inputs: RawTxInput[],
+    outputs: RawTxOutput,
+    locktime?: number,
+  ): Promise<string>;
+  decodeRawTransaction(hex: string): Promise<DecodeRawTransactionResult>;
+  decodeScript(hex: string): Promise<DecodeScriptResult>;
+  fundRawTransaction(
+    hex: string,
+    options?: Record<string, unknown>,
+  ): Promise<FundRawTransactionResult>;
+  sendRawTransaction(hex: string, allowHighFees?: boolean): Promise<string>;
+  signRawTransaction(
+    hex: string,
+    prevtxs?: PrevTx[],
+    privatekeys?: string[],
+    sighashtype?: string,
+  ): Promise<SignRawTransactionResult>;
 }
 
 export function createFiroRpcClient(config: RpcConfig): FiroRpcClient {
@@ -562,5 +589,41 @@ export function createFiroRpcClient(config: RpcConfig): FiroRpcClient {
 
     estimateSmartPriority: (nblocks: number) =>
       callRpc<SmartPriorityEstimate>(http, 'estimatesmartpriority', [nblocks]),
+
+    // raw transactions
+    createRawTransaction: (inputs, outputs, locktime = 0) =>
+      callRpc<string>(http, 'createrawtransaction', [
+        inputs,
+        outputs,
+        locktime,
+      ]),
+
+    decodeRawTransaction: (hex: string) =>
+      callRpc<DecodeRawTransactionResult>(http, 'decoderawtransaction', [hex]),
+
+    decodeScript: (hex: string) =>
+      callRpc<DecodeScriptResult>(http, 'decodescript', [hex]),
+
+    fundRawTransaction: (hex: string, options = {}) =>
+      callRpc<FundRawTransactionResult>(http, 'fundrawtransaction', [
+        hex,
+        options,
+      ]),
+
+    sendRawTransaction: (hex: string, allowHighFees = false) =>
+      callRpc<string>(http, 'sendrawtransaction', [hex, allowHighFees]),
+
+    signRawTransaction: (
+      hex,
+      prevtxs = [],
+      privatekeys = [],
+      sighashtype = 'ALL',
+    ) =>
+      callRpc<SignRawTransactionResult>(http, 'signrawtransaction', [
+        hex,
+        prevtxs,
+        privatekeys,
+        sighashtype,
+      ]),
   };
 }

@@ -28,6 +28,13 @@ export type {
   ProUpServTx,
   FinalCommitment,
   QuorumCommitment,
+  RawTxInput,
+  RawTxOutput,
+  PrevTx,
+  SignRawTransactionResult,
+  DecodeRawTransactionResult,
+  DecodeScriptResult,
+  FundRawTransactionResult,
 } from './transactions.js';
 
 export type { ScriptSig, ScriptPubKey } from './shared.js';

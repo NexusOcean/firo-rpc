@@ -84,3 +84,57 @@ export interface Transaction {
   finalCommitment?: FinalCommitment;
   sparkData?: string;
 }
+
+export interface RawTxInput {
+  txid: string;
+  vout: number;
+}
+
+export interface RawTxOutput {
+  [address: string]: number;
+}
+
+export interface PrevTx {
+  txid: string;
+  vout: number;
+  scriptPubKey: string;
+  redeemScript?: string;
+}
+
+export interface SignRawTransactionResult {
+  hex: string;
+  complete: boolean;
+  errors?: {
+    txid: string;
+    vout: number;
+    scriptSig: string;
+    sequence: number;
+    error: string;
+  }[];
+}
+
+export interface DecodeRawTransactionResult {
+  txid: string;
+  hash: string;
+  size: number;
+  vsize: number;
+  version: number;
+  locktime: number;
+  vin: Vin[];
+  vout: Vout[];
+}
+
+export interface DecodeScriptResult {
+  asm: string;
+  hex?: string;
+  type: string;
+  reqSigs?: number;
+  addresses?: string[];
+  p2sh?: string;
+}
+
+export interface FundRawTransactionResult {
+  hex: string;
+  fee: number;
+  changepos: number;
+}
