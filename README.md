@@ -80,6 +80,17 @@ All methods return typed responses. See `src/types/` for full type definitions.
 | `getReceivedByAddress(address)`  | `number`                       |
 | `importAddress(address)`         | `void`                         |
 
+**Raw Transactions**
+
+| Method                                   | Returns                      |
+| ---------------------------------------- | ---------------------------- |
+| `createRawTransaction(inputs, outputs)`  | `string`                     |
+| `decodeRawTransaction(hex)`              | `DecodeRawTransactionResult` |
+| `decodeScript(hex)`                      | `DecodeScriptResult`         |
+| `fundRawTransaction(hex, options?)`      | `FundRawTransactionResult`   |
+| `signRawTransaction(hex, ...)`           | `SignRawTransactionResult`   |
+| `sendRawTransaction(hex, allowHighFees)` | `string`                     |
+
 **Spark — Anonymity Set & Mempool**
 
 | Method                                         | Returns                   |
@@ -96,6 +107,7 @@ All methods return typed responses. See `src/types/` for full type definitions.
 | ---------------------------------------------- | --------------- |
 | `getSparkNames(fOnlyOwn?)`                     | `SparkName[]`   |
 | `getSparkNameData(sparkname)`                  | `SparkNameData` |
+| `getSparkNameTxDetails(txid)`                  | `SparkName`     |
 | `registerSparkName(name, address, years, ...)` | `string`        |
 | `requestSparkNameTransfer(name, ...)`          | `string`        |
 | `transferSparkName(oldAddress, requestHash)`   | `string`        |
@@ -169,6 +181,9 @@ Use `getNetworkInfo` and `getPeerInfo` to visualize node connectivity and peer h
 **Spark Overview**
 Summarize wallet-level Spark balance, addresses, and recent mint activity. See [`examples/spark.ts`](./examples/spark.ts).
 
+**Raw Transaction Lifecycle**
+Create, decode, fund, sign, and optionally broadcast raw transactions. See [`examples/rawtransactions.ts`](./examples/rawtransactions.ts).
+
 ## Node Requirements
 
 Some methods require specific flags enabled on your Firo node. Add these to `firo.conf` (most index flags require a one-time `-reindex` if added after initial sync):
@@ -189,6 +204,8 @@ npx tsx examples/wallet.ts <address>
 npx tsx examples/mempool.ts
 npx tsx examples/network.ts
 npx tsx examples/spark.ts
+npx tsx examples/rawtxs.ts
+npx tsx examples/rawtxs.ts --send
 ```
 
 ## License
