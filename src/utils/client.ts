@@ -132,6 +132,11 @@ export interface FiroRpcClient {
   // spark - names
   getSparkNames(fOnlyOwn?: boolean): Promise<SparkName[]>;
   getSparkNameData(sparkname: string): Promise<SparkNameData>;
+  /*
+   * Returns Spark name registration details for a given tx hash.
+   * Requires a Spark name registration tx hash — regular txids and lTagHashes are rejected.
+   * NOTE: only available via direct firod RPC; not supported on ElectrumX nodes.
+   */
   getSparkNameTxDetails(txid: string): Promise<SparkName>;
   registerSparkName(
     name: string,
@@ -185,6 +190,13 @@ export interface FiroRpcClient {
    */
   sendSpark(recipients: SparkSendRecipients): Promise<string>;
   getMempoolSparkTxs(txids: string[]): Promise<MempoolSparkTxs>;
+  /**
+   * Returns metadata for the given Spark mint coin hashes.
+   * Pass an array of coin hashes from the anonymity set (not lTagHash).
+   * Returns empty array if no matches found.
+   * @see getsparkanonymityset to obtain valid coin hashes
+   */
+  getSparkMintMetadata(coinHashes: string[]): Promise<unknown[]>;
 
   // address index (requires -addressindex on your node)
   getAddressBalance(address: string): Promise<FiroAddressBalance>;
@@ -391,6 +403,8 @@ export function createFiroRpcClient(config: RpcConfig): FiroRpcClient {
       ]),
 
     getMempoolSparkTxIds: () => callRpc<string[]>(http, 'getmempoolsparktxids'),
+    getSparkMintMetadata: (coinHashes: string[]) =>
+      callRpc<unknown[]>(http, 'getsparkmintmetadata', [{ coinHashes }]),
 
     // spark - names
     getSparkNames: (fOnlyOwn = false) =>
