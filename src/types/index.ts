@@ -84,3 +84,22 @@ export type {
   SmartFeeEstimate,
   SmartPriorityEstimate,
 } from './fees.js';
+
+export type {
+  ProTxList,
+  ProTxState,
+  ProTxWallet,
+  ProTxInfo,
+  ProTxDiffMNListEntry,
+  ProTxDiffQuorumRef,
+  ProTxDiffNewQuorum,
+  ProTxDiff,
+  QuorumList,
+  QuorumMember,
+  QuorumInfo,
+  QuorumMinableCommitment,
+  QuorumDkgStatus,
+  QuorumMembership,
+  QuorumMemberOf,
+  QuorumRecoveredSig,
+} from './evo.js';
