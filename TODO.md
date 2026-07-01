@@ -58,3 +58,26 @@ time. Typed loosely as `Record<string, unknown>`.
 ### Questions
 
 - `quorum dkgsimerror` — is this callable from a regular node at all.
+
+## Legacy/Deprecated
+
+### Deprecated (explicitly disabled/flagged in CLI help text):
+
+- getanonymityset
+- getlatestcoinid (old alias)
+- getmintmetadata (old alias)
+- getusedcoinserials
+- evoznode count — total/enabled/qualify/all filter options only
+
+### Legacy (account-based wallet API, outdated via Bitcoin Core):
+
+- getaccount
+- getaccountaddress
+- getaddressesbyaccount
+- getreceivedbyaccount
+- listaccounts
+- listreceivedbyaccount
+- move
+- sendfrom
+- setaccount
+- addwitnessaddress
