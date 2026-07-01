@@ -3,8 +3,6 @@ import { makeClient } from './setup.js';
 const client = makeClient();
 
 let rawHex: string;
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-let signedHex: string;
 
 beforeAll(async () => {
   const unspent = await client.listUnspent(1);
@@ -14,8 +12,6 @@ beforeAll(async () => {
     [{ txid: utxo.txid, vout: utxo.vout }],
     { [utxo.address as string]: parseFloat((utxo.amount - 0.0001).toFixed(8)) },
   );
-  const signed = await client.signRawTransaction(rawHex);
-  signedHex = signed.hex;
 });
 
 describe('createRawTransaction', () => {
