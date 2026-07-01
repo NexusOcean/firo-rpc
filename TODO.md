@@ -81,3 +81,27 @@ time. Typed loosely as `Record<string, unknown>`.
 - sendfrom
 - setaccount
 - addwitnessaddress
+
+## Mining/Regtest
+
+### Generating
+
+generate
+generatetoaddress
+setgenerate
+
+### Mining
+
+getblocktemplate
+getmininginfo
+getnetworkhashps
+pprpcsb
+prioritisetransaction
+submitblock
+
+### Control
+
+getinfo
+getmemoryinfo
+help
+stop
