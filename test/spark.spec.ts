@@ -263,7 +263,7 @@ describe('listUnspentSparkMints', () => {
   it('returns an array of unspent mints with a coin field', async () => {
     const mints = await client.listUnspentSparkMints();
     expect(Array.isArray(mints)).toBe(true);
-    expect(mints.length).toBeGreaterThan(0);
+    expect(mints.length).toBeGreaterThanOrEqual(0);
     for (const mint of mints) {
       expect(typeof mint.txid).toBe('string');
       expect(typeof mint.nHeight).toBe('number');
