@@ -86,22 +86,22 @@ time. Typed loosely as `Record<string, unknown>`.
 
 ### Generating
 
-generate
-generatetoaddress
-setgenerate
+- generate
+- generatetoaddress
+- setgenerate
 
 ### Mining
 
-getblocktemplate
-getmininginfo
-getnetworkhashps
-pprpcsb
-prioritisetransaction
-submitblock
+- getblocktemplate
+- getmininginfo
+- getnetworkhashps
+- pprpcsb
+- prioritisetransaction
+- submitblock
 
 ### Control
 
-getinfo
-getmemoryinfo
-help
-stop
+- getinfo
+- getmemoryinfo
+- help
+- stop
