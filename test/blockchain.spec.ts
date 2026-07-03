@@ -80,3 +80,88 @@ describe('getTxOutSetInfo', () => {
     expect(info.total_amount).toBeGreaterThan(0);
   });
 });
+
+describe('getChainTips', () => {
+  it('returns an array of chain tips including the active tip', async () => {
+    const tips = await client.getChainTips();
+    expect(Array.isArray(tips)).toBe(true);
+    expect(tips.length).toBeGreaterThan(0);
+    const activeTip = tips.find((t) => t.status === 'active');
+    expect(activeTip).toBeDefined();
+    expect(typeof activeTip!.height).toBe('number');
+    expect(activeTip!.hash).toMatch(/^[0-9a-f]{64}$/);
+    expect(activeTip!.branchlen).toBe(0);
+  });
+});
+
+describe('getDifficulty', () => {
+  it('returns a positive number', async () => {
+    const difficulty = await client.getDifficulty();
+    expect(typeof difficulty).toBe('number');
+    expect(difficulty).toBeGreaterThan(0);
+  });
+});
+
+describe('getMempoolAncestors', () => {
+  it('is a function', () => {
+    // Placeholder: requires an unconfirmed txid in the mempool
+    expect(typeof client.getMempoolAncestors).toBe('function');
+  });
+});
+
+describe('getMempoolDescendants', () => {
+  it('is a function', () => {
+    // Placeholder: requires an unconfirmed txid in the mempool
+    expect(typeof client.getMempoolDescendants).toBe('function');
+  });
+});
+
+describe('getSpecialTxes', () => {
+  it('returns an array of txids for the best block', async () => {
+    const txids = await client.getSpecialTxes(bestHash);
+    expect(Array.isArray(txids)).toBe(true);
+    for (const txid of txids) {
+      expect(typeof txid).toBe('string');
+    }
+  });
+});
+
+describe('getTxOutProof / verifyTxOutProof', () => {
+  it('generates and verifies a proof for a txid in the best block', async () => {
+    const block = await client.getBlock(bestHash);
+    const txid = block.tx[0]!.txid;
+    const proof = await client.getTxOutProof([txid], bestHash);
+    expect(typeof proof).toBe('string');
+
+    const verified = await client.verifyTxOutProof(proof);
+    expect(verified).toContain(txid);
+  });
+});
+
+describe('verifyChain', () => {
+  it('returns a boolean', async () => {
+    const result = await client.verifyChain();
+    expect(typeof result).toBe('boolean');
+  });
+});
+
+describe('clearMempool', () => {
+  it('is a function', () => {
+    // Placeholder: write/mutating (clears local mempool)
+    expect(typeof client.clearMempool).toBe('function');
+  });
+});
+
+describe('preciousBlock', () => {
+  it('is a function', () => {
+    // Placeholder: write/mutating (alters local block-tree preference)
+    expect(typeof client.preciousBlock).toBe('function');
+  });
+});
+
+describe('pruneBlockchain', () => {
+  it('is a function', () => {
+    // Placeholder: write/destructive, intended for pruned node
+    expect(typeof client.pruneBlockchain).toBe('function');
+  });
+});

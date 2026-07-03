@@ -57,6 +57,7 @@ import type {
   QuorumDkgStatus,
   QuorumMemberOf,
   QuorumRecoveredSig,
+  ChainTip,
 } from '../types/index.js';
 
 export interface FiroRpcClient {
@@ -86,6 +87,40 @@ export interface FiroRpcClient {
   getRawMempool(verbose: true): Promise<RawMempool>;
   getRawMempool(verbose: false): Promise<string[]>;
   getMempoolEntry(txid: string): Promise<MempoolEntry>;
+  clearMempool(): Promise<string[]>;
+  getChainTips(): Promise<ChainTip[]>;
+  getDifficulty(): Promise<number>;
+  getMempoolAncestors(txid: string): Promise<string[]>;
+  getMempoolAncestors(
+    txid: string,
+    verbose: true,
+  ): Promise<Record<string, MempoolEntry>>;
+  getMempoolAncestors(txid: string, verbose: false): Promise<string[]>;
+  getMempoolDescendants(txid: string): Promise<string[]>;
+  getMempoolDescendants(
+    txid: string,
+    verbose: true,
+  ): Promise<Record<string, MempoolEntry>>;
+  getMempoolDescendants(txid: string, verbose: false): Promise<string[]>;
+  getSpecialTxes(
+    blockhash: string,
+    type?: number,
+    count?: number,
+    skip?: number,
+    verbosity?: 0 | 1,
+  ): Promise<string[]>;
+  getSpecialTxes(
+    blockhash: string,
+    type: number,
+    count: number,
+    skip: number,
+    verbosity: 2,
+  ): Promise<Transaction[]>;
+  getTxOutProof(txids: string[], blockhash?: string): Promise<string>;
+  preciousBlock(blockhash: string): Promise<null>;
+  pruneBlockchain(height: number): Promise<number>;
+  verifyChain(checklevel?: number, nblocks?: number): Promise<boolean>;
+  verifyTxOutProof(proof: string): Promise<string[]>;
 
   // network
   getNetworkInfo(): Promise<NetworkInfo>;
@@ -350,6 +385,60 @@ export function createFiroRpcClient(config: RpcConfig): FiroRpcClient {
     getMempoolEntry(txid: string): Promise<MempoolEntry> {
       return callRpc<MempoolEntry>(http, 'getmempoolentry', [txid]);
     },
+
+    clearMempool: () => callRpc<string[]>(http, 'clearmempool'),
+
+    getChainTips: () => callRpc<ChainTip[]>(http, 'getchaintips'),
+
+    getDifficulty: () => callRpc<number>(http, 'getdifficulty'),
+
+    getMempoolAncestors: ((txid: string, verbose: boolean = false) =>
+      callRpc<string[] | Record<string, MempoolEntry>>(
+        http,
+        'getmempoolancestors',
+        [txid, verbose],
+      )) as FiroRpcClient['getMempoolAncestors'],
+
+    getMempoolDescendants: ((txid: string, verbose: boolean = false) =>
+      callRpc<string[] | Record<string, MempoolEntry>>(
+        http,
+        'getmempooldescendants',
+        [txid, verbose],
+      )) as FiroRpcClient['getMempoolDescendants'],
+
+    getSpecialTxes: ((
+      blockhash: string,
+      type: number = -1,
+      count: number = 10,
+      skip: number = 0,
+      verbosity: 0 | 1 | 2 = 0,
+    ) =>
+      callRpc<string[] | Transaction[]>(http, 'getspecialtxes', [
+        blockhash,
+        type,
+        count,
+        skip,
+        verbosity,
+      ])) as FiroRpcClient['getSpecialTxes'],
+
+    getTxOutProof: (txids: string[], blockhash?: string) =>
+      callRpc<string>(
+        http,
+        'gettxoutproof',
+        blockhash !== undefined ? [txids, blockhash] : [txids],
+      ),
+
+    preciousBlock: (blockhash: string) =>
+      callRpc<null>(http, 'preciousblock', [blockhash]),
+
+    pruneBlockchain: (height: number) =>
+      callRpc<number>(http, 'pruneblockchain', [height]),
+
+    verifyChain: (checklevel: number = 3, nblocks: number = 6) =>
+      callRpc<boolean>(http, 'verifychain', [checklevel, nblocks]),
+
+    verifyTxOutProof: (proof: string) =>
+      callRpc<string[]>(http, 'verifytxoutproof', [proof]),
 
     // network
     getNetworkInfo(): Promise<NetworkInfo> {

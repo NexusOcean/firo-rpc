@@ -14,6 +14,11 @@ export type {
   Bip9SoftFork,
   SoftFork,
   TxOutSetInfo,
+  ChainTip,
+  ChainTipStatus,
+  MempoolAncestorsResult,
+  MempoolDescendantsResult,
+  SpecialTxesResult,
 } from './blockchain.js';
 
 export type {

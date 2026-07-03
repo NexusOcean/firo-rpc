@@ -1,3 +1,6 @@
+import { MempoolEntry } from './mempool.js';
+import { Transaction } from './transactions.js';
+
 export interface SoftFork {
   id: string;
   version: number;
@@ -34,3 +37,28 @@ export interface TxOutSetInfo {
   disk_size: number;
   total_amount: number;
 }
+
+export type ChainTipStatus =
+  | 'invalid'
+  | 'headers-only'
+  | 'valid-headers'
+  | 'valid-fork'
+  | 'active';
+
+export interface ChainTip {
+  height: number;
+  hash: string;
+  branchlen: number;
+  status: ChainTipStatus;
+}
+
+export type MempoolAncestorsResult<V extends boolean = false> = V extends true
+  ? Record<string, MempoolEntry>
+  : string[];
+
+export type MempoolDescendantsResult<V extends boolean = false> = V extends true
+  ? Record<string, MempoolEntry>
+  : string[];
+
+export type SpecialTxesResult<Verbosity extends 0 | 1 | 2 = 0> =
+  Verbosity extends 2 ? Transaction[] : string[];
