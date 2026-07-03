@@ -83,3 +83,75 @@ export interface ListSinceBlockResult {
   removed?: WalletTransactionListEntry[];
   lastblock: string;
 }
+
+export type AddressGroupingEntry = [string, number, string?];
+
+export type AddressGrouping = AddressGroupingEntry[][];
+
+export type AddressBalances = Record<string, number>;
+
+export interface LockedUnspent {
+  txid: string;
+  vout: number;
+}
+
+export interface ReceivedByAddressEntry {
+  address: string;
+  amount: number;
+  confirmations: number;
+  label?: string;
+  /** @deprecated legacy account field, always "" — do not use */
+  account?: string;
+  txids?: string[];
+}
+
+export interface SendTransparentRecipientOptions {
+  amount: number;
+  subtractFee?: boolean;
+  memo?: string;
+  comment?: string;
+  comment_to?: string;
+}
+
+export type SendTransparentRecipients = Record<
+  string,
+  SendTransparentRecipientOptions
+>;
+
+export interface BumpFeeOptions {
+  confTarget?: number;
+  totalFee?: number;
+  replaceable?: boolean;
+}
+
+export interface BumpFeeResult {
+  txid: string;
+  origfee: number;
+  fee: number;
+  errors: string[];
+}
+
+export interface UnspentOutputRef {
+  txid: string;
+  vout: number;
+}
+
+export interface ImportMultiRequest {
+  scriptPubKey: string | { address: string };
+  timestamp: number | 'now';
+  redeemscript?: string;
+  pubkeys?: string[];
+  keys?: string[];
+  internal?: boolean;
+  watchonly?: boolean;
+  label?: string;
+}
+
+export interface ImportMultiOptions {
+  rescan?: boolean;
+}
+
+export interface ImportMultiResult {
+  success: boolean;
+  error?: { code: number; message: string };
+}

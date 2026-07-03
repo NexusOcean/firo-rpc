@@ -41,7 +41,6 @@ export type {
   RawMempool,
   FiroAddressBalance,
   FiroAddressTxIds,
-  // Blockchain (extended)
   BlockHeader,
   TxOut,
   // Wallet
@@ -52,6 +51,19 @@ export type {
   ListSinceBlockResult,
   UnspentOutput,
   UsedCoinsTags,
+  AddressGroupingEntry,
+  AddressGrouping,
+  AddressBalances,
+  LockedUnspent,
+  ReceivedByAddressEntry,
+  SendTransparentRecipientOptions,
+  SendTransparentRecipients,
+  BumpFeeOptions,
+  BumpFeeResult,
+  UnspentOutputRef,
+  ImportMultiRequest,
+  ImportMultiOptions,
+  ImportMultiResult,
   // Spark
   SparkAnonymitySet,
   SparkAnonymitySetMeta,

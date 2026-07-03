@@ -58,6 +58,19 @@ export type {
   WalletTransactionListEntry,
   WalletTransaction,
   ListSinceBlockResult,
+  AddressGroupingEntry,
+  AddressGrouping,
+  AddressBalances,
+  LockedUnspent,
+  ReceivedByAddressEntry,
+  SendTransparentRecipientOptions,
+  SendTransparentRecipients,
+  BumpFeeOptions,
+  BumpFeeResult,
+  UnspentOutputRef,
+  ImportMultiRequest,
+  ImportMultiOptions,
+  ImportMultiResult,
 } from './wallet.js';
 
 export type { TxOut, UnspentOutput } from './utxo.js';
