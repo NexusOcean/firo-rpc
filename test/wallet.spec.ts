@@ -156,3 +156,181 @@ describe('getReceivedByAddress', () => {
     expect(received).toBeGreaterThanOrEqual(0);
   });
 });
+
+describe('getRawChangeAddress', () => {
+  it('returns a change address string', async () => {
+    const address = await client.getRawChangeAddress();
+    expect(typeof address).toBe('string');
+    expect(address.length).toBeGreaterThan(0);
+  });
+});
+
+describe('listAddressBalances', () => {
+  it('returns balances keyed by address', async () => {
+    const balances = await client.listAddressBalances();
+    expect(typeof balances).toBe('object');
+  });
+});
+
+describe('listAddressGroupings', () => {
+  it('returns an array of groupings of [address, amount, label?] tuples', async () => {
+    const groupings = await client.listAddressGroupings();
+    expect(Array.isArray(groupings)).toBe(true);
+    for (const group of groupings) {
+      for (const [address, amount, label] of group) {
+        expect(typeof address).toBe('string');
+        expect(typeof amount).toBe('number');
+        if (label !== undefined) {
+          expect(typeof label).toBe('string');
+        }
+      }
+    }
+  });
+});
+
+describe('listLockUnspent', () => {
+  it('returns an array', async () => {
+    const locked = await client.listLockUnspent();
+    expect(Array.isArray(locked)).toBe(true);
+  });
+});
+
+describe('listReceivedByAddress', () => {
+  it('returns an array of received-by-address entries', async () => {
+    const entries = await client.listReceivedByAddress();
+    expect(Array.isArray(entries)).toBe(true);
+    for (const entry of entries) {
+      expect(typeof entry.address).toBe('string');
+      expect(typeof entry.amount).toBe('number');
+      expect(typeof entry.confirmations).toBe('number');
+    }
+  });
+});
+
+describe('signMessage', () => {
+  it('returns a signature string for a wallet address', async () => {
+    const address = await client.getRawChangeAddress();
+    const signature = await client.signMessage(address, 'test message');
+    expect(typeof signature).toBe('string');
+    expect(signature.length).toBeGreaterThan(0);
+  });
+});
+
+describe('signMessageWithSparkAddress', () => {
+  it('returns a signature string for a spark address', async () => {
+    const [address] = await client.getSparkDefaultAddress();
+    const signature = await client.signMessageWithSparkAddress(
+      address!,
+      'test message',
+    );
+    expect(typeof signature).toBe('string');
+    expect(signature.length).toBeGreaterThan(0);
+  });
+});
+
+describe('lockUnspent', () => {
+  it('locks and unlocks a real unspent output', async () => {
+    const unspent = await client.listUnspent();
+    const [utxo] = unspent;
+    expect(utxo).toBeDefined();
+
+    const locked = await client.lockUnspent(false, [
+      { txid: utxo!.txid, vout: utxo!.vout },
+    ]);
+    expect(locked).toBe(true);
+
+    const lockedList = await client.listLockUnspent();
+    expect(
+      lockedList.some((l) => l.txid === utxo!.txid && l.vout === utxo!.vout),
+    ).toBe(true);
+
+    const unlocked = await client.lockUnspent(true, [
+      { txid: utxo!.txid, vout: utxo!.vout },
+    ]);
+    expect(unlocked).toBe(true);
+  });
+});
+
+describe('setMinInput', () => {
+  it('is a function', () => {
+    // Placeholder: mutates node wallet setting
+    expect(typeof client.setMinInput).toBe('function');
+  });
+});
+
+describe('setTxFee', () => {
+  it('is a function', () => {
+    // Placeholder: mutates node wallet setting
+    expect(typeof client.setTxFee).toBe('function');
+  });
+});
+
+describe('importPrivKey', () => {
+  it('is a function', () => {
+    // Placeholder: mutates wallet keypool, triggers rescan
+    expect(typeof client.importPrivKey).toBe('function');
+  });
+});
+
+describe('importPubKey', () => {
+  it('is a function', () => {
+    // Placeholder: mutates wallet keypool, triggers rescan
+    expect(typeof client.importPubKey).toBe('function');
+  });
+});
+
+describe('sendMany', () => {
+  it('is a function', () => {
+    // Placeholder: sends real funds
+    expect(typeof client.sendMany).toBe('function');
+  });
+});
+
+describe('sendTransparent', () => {
+  it('is a function', () => {
+    // Placeholder: sends real funds
+    expect(typeof client.sendTransparent).toBe('function');
+  });
+});
+
+describe('sendTransparentMany', () => {
+  it('is a function', () => {
+    // Placeholder: sends real funds
+    expect(typeof client.sendTransparentMany).toBe('function');
+  });
+});
+
+describe('bumpFee', () => {
+  it('is a function', () => {
+    // Placeholder: requires a real pending fee-bumpable txid
+    expect(typeof client.bumpFee).toBe('function');
+  });
+});
+
+describe('sendSparkMany', () => {
+  it('is a function', () => {
+    // Placeholder: sends real funds
+    expect(typeof client.sendSparkMany).toBe('function');
+  });
+});
+
+describe('spendSpark', () => {
+  it('is a function', () => {
+    // Placeholder: sends real funds
+    expect(typeof client.spendSpark).toBe('function');
+  });
+});
+
+describe('importMulti', () => {
+  it('is a function', () => {
+    // Placeholder: request/options schema unconfirmed
+    expect(typeof client.importMulti).toBe('function');
+  });
+});
+
+describe('abandonTransaction', () => {
+  it('is a function', () => {
+    // Placeholder: no unconfirmed txid available to test against
+    expect(typeof client.abandonTransaction).toBe('function');
+  });
+});
