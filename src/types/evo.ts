@@ -93,9 +93,6 @@ export interface QuorumMinableCommitment {
   quorumPublicKey: string;
 }
 
-/**
- Typed loosely as a record; revisit if a populated session is captured.
- */
 export interface QuorumDkgStatus {
   time: number;
   timeStr: string;
@@ -115,8 +112,54 @@ export interface QuorumMembership {
 
 export type QuorumMemberOf = QuorumMembership[];
 
-/**
- * Typed from the `quorum getrecsig` usage string only. Revisit once a valid
- * sample response is available.
- */
 export type QuorumRecoveredSig = unknown;
+
+export interface EvozNodeInfo {
+  proTxHash: string;
+  address: string;
+  payee: string;
+  status: string;
+  lastpaidtime: number;
+  lastpaidblock: number;
+  owneraddress: string;
+  votingaddress: string;
+  collateraladdress: string;
+  pubkeyoperator: string;
+}
+
+export type EvozNodeList = Record<string, EvozNodeInfo>;
+
+export interface EvozNodeCount {
+  total: number;
+  enabled: number;
+}
+
+export interface EvozNodeHeightInfo {
+  height: number;
+  'IP:port': string;
+  proTxHash: string;
+  outpoint: string;
+  payee: string;
+}
+
+export type EvozNodeWinners = Record<string, string>;
+
+export interface BlsKeyPair {
+  secret: string;
+  public: string;
+}
+
+export interface SporkList {
+  blockchain: unknown[];
+  mempool: unknown[];
+}
+
+export interface EvozNodeSyncStatus {
+  AssetID: number;
+  AssetName: string;
+  AssetStartTime: number;
+  Attempt: number;
+  IsBlockchainSynced: boolean;
+  IsSynced: boolean;
+  IsFailed: boolean;
+}

@@ -128,6 +128,14 @@ export type {
   QuorumMembership,
   QuorumMemberOf,
   QuorumRecoveredSig,
+  EvozNodeInfo,
+  EvozNodeList,
+  EvozNodeCount,
+  EvozNodeHeightInfo,
+  EvozNodeWinners,
+  BlsKeyPair,
+  SporkList,
+  EvozNodeSyncStatus,
 } from './evo.js';
 
 export type { MultisigResult } from './util.js';

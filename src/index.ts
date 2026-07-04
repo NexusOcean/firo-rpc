@@ -109,6 +109,14 @@ export type {
   QuorumMembership,
   QuorumMemberOf,
   QuorumRecoveredSig,
+  EvozNodeInfo,
+  EvozNodeList,
+  EvozNodeCount,
+  EvozNodeHeightInfo,
+  EvozNodeWinners,
+  BlsKeyPair,
+  SporkList,
+  EvozNodeSyncStatus,
   // Util
   MultisigResult,
 } from './types/index.js';

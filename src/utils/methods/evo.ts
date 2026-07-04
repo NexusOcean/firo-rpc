@@ -9,6 +9,13 @@ import type {
   QuorumDkgStatus,
   QuorumMemberOf,
   QuorumRecoveredSig,
+  EvozNodeList,
+  EvozNodeCount,
+  EvozNodeHeightInfo,
+  EvozNodeWinners,
+  BlsKeyPair,
+  SporkList,
+  EvozNodeSyncStatus,
 } from '../../types/index.js';
 
 export interface EvoMethods {
@@ -26,32 +33,30 @@ export interface EvoMethods {
     proTxHash: string,
     scanQuorumsCount?: number,
   ): Promise<QuorumMemberOf>;
-  /**
-   * Return shape UNCONFIRMED against live data — see {@link QuorumRecoveredSig}.
-   */
   quorumGetRecSig(
     llmqType: number,
     id: string,
     msgHash: string,
   ): Promise<QuorumRecoveredSig>;
-  /**
-   * NOT confirmed against a live response, since no
-   * valid id/msgHash pair was available to test with.
-   */
   quorumHasRecSig(
     llmqType: number,
     id: string,
     msgHash: string,
   ): Promise<boolean>;
-  /**
-   * NOT confirmed against a live response, since no valid
-   * id/msgHash pair was available to test with.
-   */
   quorumIsConflicting(
     llmqType: number,
     id: string,
     msgHash: string,
   ): Promise<boolean>;
+  evoznodeList(): Promise<EvozNodeList>;
+  evoznodeCount(): Promise<EvozNodeCount>;
+  evoznodeCurrent(): Promise<EvozNodeHeightInfo>;
+  evoznodeWinner(): Promise<EvozNodeHeightInfo>;
+  evoznodeWinners(): Promise<EvozNodeWinners>;
+  blsGenerate(): Promise<BlsKeyPair>;
+  blsFromSecret(secret: string): Promise<BlsKeyPair>;
+  sporkList(): Promise<SporkList>;
+  evoznsyncStatus(): Promise<EvozNodeSyncStatus>;
 }
 
 export function createEvoMethods(http: AxiosInstance): EvoMethods {
@@ -112,5 +117,28 @@ export function createEvoMethods(http: AxiosInstance): EvoMethods {
         id,
         msgHash,
       ]),
+
+    evoznodeList: () => callRpc<EvozNodeList>(http, 'evoznode', ['list']),
+
+    evoznodeCount: () => callRpc<EvozNodeCount>(http, 'evoznode', ['count']),
+
+    evoznodeCurrent: () =>
+      callRpc<EvozNodeHeightInfo>(http, 'evoznode', ['current']),
+
+    evoznodeWinner: () =>
+      callRpc<EvozNodeHeightInfo>(http, 'evoznode', ['winner']),
+
+    evoznodeWinners: () =>
+      callRpc<EvozNodeWinners>(http, 'evoznode', ['winners']),
+
+    blsGenerate: () => callRpc<BlsKeyPair>(http, 'bls', ['generate']),
+
+    blsFromSecret: (secret: string) =>
+      callRpc<BlsKeyPair>(http, 'bls', ['fromsecret', secret]),
+
+    sporkList: () => callRpc<SporkList>(http, 'spork', ['list']),
+
+    evoznsyncStatus: () =>
+      callRpc<EvozNodeSyncStatus>(http, 'evoznsync', ['status']),
   };
 }
