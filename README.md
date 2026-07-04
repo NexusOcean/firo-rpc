@@ -1,4 +1,4 @@
-# firo-rpc
+# Firo RPC Client
 
 TypeScript client for Firo's JSON-RPC interface. Promise-based, strongly typed, with batch support. Built on Axios, targeting Node 24.
 
