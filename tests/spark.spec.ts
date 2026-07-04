@@ -1,4 +1,8 @@
-import { makeClient } from './setup.js';
+import {
+  makeClient,
+  maybeDescribeSparkAddress,
+  SPARK_ADDRESS,
+} from './setup.js';
 
 const client = makeClient();
 
@@ -128,11 +132,9 @@ describe('getSparkBalance', () => {
   });
 });
 
-describe('getSparkAddressBalance', () => {
+maybeDescribeSparkAddress('getSparkAddressBalance', () => {
   it('returns balance fields for a known address', async () => {
-    const balance = await client.getSparkAddressBalance(
-      'sm1kwyjxp6kthrt8nws7q3tk03s3nfwg6r4n6e9y5tr8kdd9zhy5zytprye4u3vxu7z92w8gdyh27xt0qmky3pajw0tthmyl3fgv2de53mynu9zwsl4v8azc85cvlplyw3aeufnl2gxrxz9w',
-    );
+    const balance = await client.getSparkAddressBalance(SPARK_ADDRESS);
     expect(typeof balance.availableBalance).toBe('number');
     expect(typeof balance.unconfirmedBalance).toBe('number');
     expect(typeof balance.fullBalance).toBe('number');

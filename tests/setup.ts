@@ -12,6 +12,10 @@ const {
   FIRO_PROTOCOL,
   FIRO_TEST_SEND,
   TEST_IMPORT_ADDRESS,
+  TEST_ADDRESS,
+  TEST_SPARK_ADDRESS,
+  TEST_SPENT_TXID,
+  TEST_SPENT_INDEX,
 } = parsed as Record<string, string>;
 
 if (!FIRO_HOST || !FIRO_USER || !FIRO_PASS || !FIRO_PORT || !FIRO_PROTOCOL) {
@@ -37,3 +41,22 @@ export const shouldTestSend = FIRO_TEST_SEND === '1';
 export const maybeDescribe = TEST_IMPORT_ADDRESS ? describe : describe.skip;
 
 export const IMPORT_ADDRESS = TEST_IMPORT_ADDRESS ?? '';
+
+export const maybeDescribeAddress = TEST_ADDRESS ? describe : describe.skip;
+
+export const ADDRESS = TEST_ADDRESS ?? '';
+
+export const maybeDescribeSparkAddress = TEST_SPARK_ADDRESS
+  ? describe
+  : describe.skip;
+
+export const SPARK_ADDRESS = TEST_SPARK_ADDRESS ?? '';
+
+export const maybeDescribeSpentInfo =
+  TEST_SPENT_TXID && TEST_SPENT_INDEX ? describe : describe.skip;
+
+export const SPENT_TXID = TEST_SPENT_TXID ?? '';
+
+export const SPENT_INDEX = TEST_SPENT_INDEX
+  ? parseInt(TEST_SPENT_INDEX, 10)
+  : 0;

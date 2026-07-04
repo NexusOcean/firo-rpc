@@ -19,7 +19,7 @@ import {
   type RawTransactionMethods,
   createEvoMethods,
   type EvoMethods,
-} from './clients/index.js';
+} from './methods/index.js';
 
 export interface FiroRpcClient
   extends
