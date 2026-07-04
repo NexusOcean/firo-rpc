@@ -6,7 +6,7 @@ export default {
     '^(\\.{1,2}/.*)\\.js$': '$1',
   },
   transform: {
-    '^.+\\.ts$': [
+    '^.+\\.(t|j)s$': [
       '@swc/jest',
       {
         jsc: {
@@ -16,5 +16,7 @@ export default {
       },
     ],
   },
+  testTimeout: 30_000,
   testMatch: ['**/tests/**/*.spec.ts'],
+  transformIgnorePatterns: [],
 };

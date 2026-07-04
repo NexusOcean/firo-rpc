@@ -27,6 +27,7 @@ export const config = {
   port: parseInt(FIRO_PORT, 10),
   user: FIRO_USER,
   pass: FIRO_PASS,
+  enableTor: false,
   protocol: FIRO_PROTOCOL as 'http' | 'https',
 };
 

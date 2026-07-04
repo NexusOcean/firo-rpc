@@ -9,7 +9,7 @@
  */
 
 import dotenv from 'dotenv';
-import { createFiroRpcClient } from '../src/utils/client.js';
+import { createFiroRpcClient } from '../src/index.js';
 import type {
   Block,
   Transaction,

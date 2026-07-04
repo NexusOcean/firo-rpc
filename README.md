@@ -208,6 +208,17 @@ npx tsx examples/rawtxs.ts
 npx tsx examples/rawtxs.ts --send
 ```
 
+### Using Tor
+
+Provide an onion domain and the corresponding port for the hidden service in `.env.test`.
+
+- This currently assumes you are running a Tor daemon locally on port 9050.
+  Consider increasing the timeouts if used in production.
+
+```bash
+npx tsx examples/tor.ts
+```
+
 ## License
 
 ISC — Copyright (c) 2026, NexusOcean. See [LICENSE](./LICENSE).

@@ -11,7 +11,7 @@
  *   npx tsx examples/rawtxs.ts --send
  */
 import dotenv from 'dotenv';
-import { createFiroRpcClient } from '../src/utils/client.js';
+import { createFiroRpcClient } from '../src/index.js';
 
 const { parsed } = dotenv.config({ path: '.env.test' });
 const { FIRO_HOST, FIRO_USER, FIRO_PASS, FIRO_PORT, FIRO_PROTOCOL } =

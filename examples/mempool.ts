@@ -5,9 +5,9 @@
  * Useful for real-time dashboards, fee estimators, or alert systems.
  */
 import dotenv from 'dotenv';
-import { createFiroRpcClient } from '../src/utils/client.js';
-const { parsed } = dotenv.config({ path: '.env.test' });
+import { createFiroRpcClient } from '../src/index.js';
 
+const { parsed } = dotenv.config({ path: '.env.test' });
 const { FIRO_HOST, FIRO_USER, FIRO_PASS, FIRO_PORT, FIRO_PROTOCOL } =
   parsed as Record<string, string>;
 

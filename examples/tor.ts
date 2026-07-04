@@ -17,6 +17,7 @@ const client = createFiroRpcClient({
   port: parseInt(FIRO_PORT, 10),
   user: FIRO_USER,
   pass: FIRO_PASS,
+  enableTor: true,
   protocol: FIRO_PROTOCOL as 'http' | 'https',
 });
 
