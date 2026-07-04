@@ -19,6 +19,8 @@ import {
   type RawTransactionMethods,
   createEvoMethods,
   type EvoMethods,
+  createUtilMethods,
+  type UtilMethods,
 } from './methods/index.js';
 
 export interface FiroRpcClient
@@ -30,7 +32,8 @@ export interface FiroRpcClient
     AddressIndexMethods,
     FeesMethods,
     RawTransactionMethods,
-    EvoMethods {
+    EvoMethods,
+    UtilMethods {
   call<T = unknown>(method: string, ...params: unknown[]): Promise<T>;
   batch(calls: BatchCall[]): Promise<BatchResult[]>;
 }
@@ -54,5 +57,6 @@ export function createFiroRpcClient(config: RpcConfig): FiroRpcClient {
     ...createFeesMethods(http),
     ...createRawTransactionMethods(http),
     ...createEvoMethods(http),
+    ...createUtilMethods(http),
   };
 }

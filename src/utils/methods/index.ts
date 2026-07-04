@@ -15,3 +15,4 @@ export {
   type RawTransactionMethods,
 } from './transactions.js';
 export { createEvoMethods, type EvoMethods } from './evo.js';
+export { createUtilMethods, type UtilMethods } from './util.js';

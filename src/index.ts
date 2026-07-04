@@ -41,6 +41,11 @@ export type {
   RawMempool,
   FiroAddressBalance,
   FiroAddressTxIds,
+  AddressDelta,
+  AddressMempoolDelta,
+  AddressUtxo,
+  SpentInfo,
+  TotalSupply,
   BlockHeader,
   TxOut,
   // Wallet
@@ -104,4 +109,6 @@ export type {
   QuorumMembership,
   QuorumMemberOf,
   QuorumRecoveredSig,
+  // Util
+  MultisigResult,
 } from './types/index.js';

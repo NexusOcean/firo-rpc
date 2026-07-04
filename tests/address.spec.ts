@@ -78,7 +78,7 @@ maybeDescribeSpentInfo('getSpentInfo', () => {
 });
 
 describe('getTotalSupply', () => {
-  it('returns a total supply string', async () => {
+  it('returns a total supply number', async () => {
     const result = await client.getTotalSupply();
     expect(typeof result.total).toBe('number');
   });

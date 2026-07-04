@@ -129,3 +129,5 @@ export type {
   QuorumMemberOf,
   QuorumRecoveredSig,
 } from './evo.js';
+
+export type { MultisigResult } from './util.js';
