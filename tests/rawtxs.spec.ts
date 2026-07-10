@@ -18,8 +18,6 @@ beforeAll(async () => {
   }
 });
 
-const maybeDescribe = () => (utxo ? describe : describe.skip);
-
 describe('createRawTransaction', () => {
   it('returns a non-empty hex string', async () => {
     if (!utxo) return;
