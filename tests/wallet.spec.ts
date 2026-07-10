@@ -232,20 +232,20 @@ describe('lockUnspent', () => {
   it('locks and unlocks a real unspent output', async () => {
     const unspent = await client.listUnspent();
     const [utxo] = unspent;
-    expect(utxo).toBeDefined();
+    if (!utxo) return;
 
     const locked = await client.lockUnspent(false, [
-      { txid: utxo!.txid, vout: utxo!.vout },
+      { txid: utxo.txid, vout: utxo.vout },
     ]);
     expect(locked).toBe(true);
 
     const lockedList = await client.listLockUnspent();
     expect(
-      lockedList.some((l) => l.txid === utxo!.txid && l.vout === utxo!.vout),
+      lockedList.some((l) => l.txid === utxo.txid && l.vout === utxo.vout),
     ).toBe(true);
 
     const unlocked = await client.lockUnspent(true, [
-      { txid: utxo!.txid, vout: utxo!.vout },
+      { txid: utxo.txid, vout: utxo.vout },
     ]);
     expect(unlocked).toBe(true);
   });

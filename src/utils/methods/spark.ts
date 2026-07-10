@@ -177,31 +177,11 @@ export function createSparkMethods(http: AxiosInstance): SparkMethods {
     getSparkDefaultAddress: () =>
       callRpc<string[]>(http, 'getsparkdefaultaddress'),
 
-    getSparkBalance: async () => {
-      const raw = await callRpc<Record<string, number>>(
-        http,
-        'getsparkbalance',
-        [],
-      );
-      return {
-        availableBalance: raw['availableBalance: '] ?? 0,
-        unconfirmedBalance: raw['unconfirmedBalance: '] ?? 0,
-        fullBalance: raw['fullBalance: '] ?? 0,
-      } as SparkAddressBalance;
-    },
+    getSparkBalance: () =>
+      callRpc<SparkAddressBalance>(http, 'getsparkbalance', []),
 
-    getSparkAddressBalance: async (address: string) => {
-      const raw = await callRpc<Record<string, number>>(
-        http,
-        'getsparkaddressbalance',
-        [address],
-      );
-      return {
-        availableBalance: raw['availableBalance: '] ?? 0,
-        unconfirmedBalance: raw['unconfirmedBalance: '] ?? 0,
-        fullBalance: raw['fullBalance: '] ?? 0,
-      };
-    },
+    getSparkAddressBalance: (address: string) =>
+      callRpc<SparkAddressBalance>(http, 'getsparkaddressbalance', [address]),
 
     getTotalBalance: () => callRpc<number>(http, 'gettotalbalance'),
 

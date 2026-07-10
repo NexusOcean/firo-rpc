@@ -123,12 +123,15 @@ describe('getSparkNameTxDetails', () => {
 });
 
 describe('getSparkBalance', () => {
-  it('returns balance fields', async () => {
+  it('returns correct balance fields', async () => {
     const balance = await client.getSparkBalance();
     expect(typeof balance.availableBalance).toBe('number');
     expect(typeof balance.unconfirmedBalance).toBe('number');
     expect(typeof balance.fullBalance).toBe('number');
-    expect(balance.availableBalance).toBeGreaterThanOrEqual(0);
+    expect(balance.fullBalance).toBeGreaterThanOrEqual(0);
+    expect(balance.availableBalance + balance.unconfirmedBalance).toBeCloseTo(
+      balance.fullBalance,
+    );
   });
 });
 

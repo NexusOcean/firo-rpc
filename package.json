@@ -46,7 +46,7 @@
   "scripts": {
     "build": "tsup",
     "dev": "tsup --watch",
-    "test": "jest --silent",
+    "test": "jest --verbose",
     "test:watch": "jest --watch",
     "coverage": "jest --coverage",
     "lint": "eslint . --ext .ts",
