@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.5.1 — 2026-07-10
+
+### Fixed
+
+- `getSparkBalance` and `getSparkAddressBalance` no longer manually remap response keys — the daemon now returns clean camelCase keys (`availableBalance`, `unconfirmedBalance`, `fullBalance`) so the workaround that mapped trailing-space variants (e.g. `"availableBalance: "`) has been removed
+
 ## 0.5.0 — 2026-06-19
 
 ### Added
