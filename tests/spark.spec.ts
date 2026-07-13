@@ -122,9 +122,10 @@ describe('getSparkNameTxDetails', () => {
   });
 });
 
-describe('getSparkBalance', () => {
-  it('returns correct balance fields', async () => {
-    const balance = await client.getSparkBalance();
+describe('getSparkAddressBalance', () => {
+  it('returns correct balance fields for a spark address', async () => {
+    const address = await client.getSparkDefaultAddress();
+    const balance = await client.getSparkAddressBalance(address);
     expect(typeof balance.availableBalance).toBe('number');
     expect(typeof balance.unconfirmedBalance).toBe('number');
     expect(typeof balance.fullBalance).toBe('number');
