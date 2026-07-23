@@ -1,5 +1,13 @@
 # Changelog
 
+## 0.6.0 — 2026-07-23
+
+### Removed
+
+- `enableTor` option removed from `RpcConfig` along with the built-in SOCKS5 proxy support in `buildHttpClient` — connect through a Tor daemon by passing a custom agent via `axiosOptions` instead
+- `socks-proxy-agent` dependency dropped
+- `examples/tor.ts` removed
+
 ## 0.5.1 — 2026-07-10
 
 ### Fixed

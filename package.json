@@ -1,7 +1,7 @@
 {
   "name": "@nexusocean/firo-rpc",
   "description": "Modern TypeScript client for Firo's JSON-RPC interface",
-  "version": "0.5.2",
+  "version": "0.6.0",
   "publishConfig": {
     "access": "public"
   },
@@ -56,25 +56,24 @@
     "prepare": "husky"
   },
   "dependencies": {
-    "axios": "^1.18.1",
-    "socks-proxy-agent": "^10.1.0"
+    "axios": "^1.18.1"
   },
   "devDependencies": {
     "@eslint/js": "^10.0.1",
-    "@swc/core": "^1.15.43",
+    "@swc/core": "^1.15.46",
     "@swc/jest": "^0.2.39",
     "@types/jest": "^30.0.0",
     "@types/node": "^25.9.4",
-    "@typescript-eslint/eslint-plugin": "^8.62.1",
-    "@typescript-eslint/parser": "^8.62.1",
+    "@typescript-eslint/eslint-plugin": "^8.65.0",
+    "@typescript-eslint/parser": "^8.65.0",
     "dotenv": "^17.4.2",
-    "eslint": "^10.6.0",
+    "eslint": "^10.7.0",
     "husky": "^9.1.7",
     "jest": "^30.4.2",
-    "lint-staged": "^17.0.8",
-    "prettier": "^3.9.4",
+    "lint-staged": "^17.1.0",
+    "prettier": "^3.9.6",
     "tsup": "^8.5.1",
-    "tsx": "^4.23.0",
+    "tsx": "^4.23.1",
     "typescript": "^6.0.3"
   },
   "lint-staged": {

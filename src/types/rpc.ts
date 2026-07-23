@@ -3,7 +3,6 @@ export interface RpcConfig {
   port?: number;
   user: string;
   pass: string;
-  enableTor?: boolean;
   protocol?: 'http' | 'https';
   timeout?: number;
   rejectUnauthorized?: boolean;
