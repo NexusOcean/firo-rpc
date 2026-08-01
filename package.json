@@ -77,11 +77,11 @@
     "typescript": "^6.0.3"
   },
   "lint-staged": {
-    "*.ts": [
+    "*.{ts,js}": [
       "prettier --write",
       "eslint --fix"
     ],
-    "*.{json,md,yml,yaml}": [
+    "*.{json,md}": [
       "prettier --write"
     ]
   },
