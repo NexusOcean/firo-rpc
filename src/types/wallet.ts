@@ -26,13 +26,7 @@ export interface ValidateAddressResult {
   hdmasterkeyid?: string;
 }
 export type WalletTxCategory =
-  | 'send'
-  | 'receive'
-  | 'generate'
-  | 'immature'
-  | 'orphan'
-  | 'spend'
-  | 'mint';
+  'send' | 'receive' | 'generate' | 'immature' | 'orphan' | 'spend' | 'mint';
 export interface WalletTransactionDetail {
   account: string;
   address?: string;

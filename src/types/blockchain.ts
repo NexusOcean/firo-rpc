@@ -39,11 +39,7 @@ export interface TxOutSetInfo {
 }
 
 export type ChainTipStatus =
-  | 'invalid'
-  | 'headers-only'
-  | 'valid-headers'
-  | 'valid-fork'
-  | 'active';
+  'invalid' | 'headers-only' | 'valid-headers' | 'valid-fork' | 'active';
 
 export interface ChainTip {
   height: number;
