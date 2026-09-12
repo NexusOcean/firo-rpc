@@ -25,7 +25,7 @@
   },
   "license": "ISC",
   "type": "module",
-  "packageManager": "pnpm@11.19.0",
+  "packageManager": "pnpm@11.26.0",
   "main": "./dist/index.cjs",
   "module": "./dist/index.js",
   "types": "./dist/index.d.ts",
@@ -57,24 +57,24 @@
     "prepare": "husky"
   },
   "dependencies": {
-    "axios": "^1.19.0"
+    "axios": "^1.20.0"
   },
   "devDependencies": {
     "@eslint/js": "^10.0.1",
-    "@swc/core": "^1.15.47",
+    "@swc/core": "^1.16.2",
     "@swc/jest": "^0.2.39",
     "@types/jest": "^30.0.0",
-    "@types/node": "^25.9.5",
-    "@typescript-eslint/eslint-plugin": "^8.65.0",
-    "@typescript-eslint/parser": "^8.65.0",
+    "@types/node": "^25.9.6",
+    "@typescript-eslint/eslint-plugin": "^8.70.0",
+    "@typescript-eslint/parser": "^8.70.0",
     "dotenv": "^17.4.2",
-    "eslint": "^10.8.0",
+    "eslint": "^10.10.0",
     "husky": "^9.1.7",
-    "jest": "^30.4.2",
-    "lint-staged": "^17.3.0",
+    "jest": "^30.5.1",
+    "lint-staged": "^17.5.1",
     "prettier": "^3.9.6",
     "tsup": "^8.5.1",
-    "tsx": "^4.23.1",
+    "tsx": "^4.23.13",
     "typescript": "^6.0.3"
   },
   "lint-staged": {
