@@ -210,4 +210,4 @@ npx tsx examples/rawtxs.ts --send
 
 ## License
 
-ISC — Copyright (c) 2026, NexusOcean. See [LICENSE](./LICENSE).
+MIT — See [LICENSE](./LICENSE).
