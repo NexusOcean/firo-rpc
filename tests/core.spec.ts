@@ -40,6 +40,33 @@ describe('call', () => {
   });
 });
 
+describe('callWithOptions', () => {
+  it('returns the same result as call', async () => {
+    const hash = await client.callWithOptions<string>(
+      'getblockhash',
+      [blockCount],
+      { timeout: 10_000 },
+    );
+    expect(hash).toMatch(/^[0-9a-f]{64}$/);
+  });
+
+  it('throws RpcCallError when the timeout is exceeded', async () => {
+    await expect(
+      client.callWithOptions('getblockcount', [], { timeout: 1 }),
+    ).rejects.toMatchObject({ name: 'RpcCallError', code: -1 });
+  });
+
+  it('throws RpcCallError when aborted', async () => {
+    const controller = new AbortController();
+    controller.abort();
+    await expect(
+      client.callWithOptions('getblockcount', [], {
+        signal: controller.signal,
+      }),
+    ).rejects.toMatchObject({ name: 'RpcCallError', code: -1 });
+  });
+});
+
 describe('batch', () => {
   it('returns one result per request in order', async () => {
     const heights = [blockCount, blockCount - 1, blockCount - 2];

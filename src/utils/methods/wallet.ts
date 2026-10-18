@@ -118,6 +118,17 @@ export interface WalletMethods {
     options?: ImportMultiOptions,
   ): Promise<ImportMultiResult[]>;
   abandonTransaction(txid: string): Promise<void>;
+  // encryptwallet shuts the node down on success; it must be restarted before
+  // further calls. The connection may drop before the reply arrives.
+  encryptWallet(passphrase: string): Promise<string>;
+  // Help for these is hidden until the wallet is encrypted; on an unencrypted
+  // wallet they error with code -15. timeout is in seconds.
+  walletPassphrase(passphrase: string, timeout: number): Promise<void>;
+  walletPassphraseChange(
+    oldPassphrase: string,
+    newPassphrase: string,
+  ): Promise<void>;
+  walletLock(): Promise<void>;
 }
 
 export function createWalletMethods(http: AxiosInstance): WalletMethods {
@@ -325,5 +336,19 @@ export function createWalletMethods(http: AxiosInstance): WalletMethods {
 
     abandonTransaction: (txid: string) =>
       callRpc<void>(http, 'abandontransaction', [txid]),
+
+    encryptWallet: (passphrase: string) =>
+      callRpc<string>(http, 'encryptwallet', [passphrase]),
+
+    walletPassphrase: (passphrase: string, timeout: number) =>
+      callRpc<void>(http, 'walletpassphrase', [passphrase, timeout]),
+
+    walletPassphraseChange: (oldPassphrase: string, newPassphrase: string) =>
+      callRpc<void>(http, 'walletpassphrasechange', [
+        oldPassphrase,
+        newPassphrase,
+      ]),
+
+    walletLock: () => callRpc<void>(http, 'walletlock'),
   };
 }

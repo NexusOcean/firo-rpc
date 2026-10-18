@@ -28,6 +28,11 @@ console.log(info.chain, info.blocks);
 // Generic call
 const count = await client.call<number>('getblockcount');
 
+// Generic call with per-request options (overrides the client timeout)
+const set = await client.callWithOptions('getsparkanonymityset', ['1', ''], {
+  timeout: 120_000,
+});
+
 // Batch request
 const hashes = await client.batch([
   { method: 'getblockhash', params: [count] },
@@ -65,20 +70,26 @@ All methods return typed responses. See `src/types/` for full type definitions.
 
 **Wallet**
 
-| Method                           | Returns                        |
-| -------------------------------- | ------------------------------ |
-| `getWalletInfo()`                | `WalletInfo`                   |
-| `getBalance()`                   | `number`                       |
-| `getUnconfirmedBalance()`        | `number`                       |
-| `getNewAddress()`                | `string`                       |
-| `validateAddress(address)`       | `ValidateAddressResult`        |
-| `getTransaction(txid)`           | `WalletTransaction`            |
-| `listTransactions()`             | `WalletTransactionListEntry[]` |
-| `listSinceBlock(hash?)`          | `ListSinceBlockResult`         |
-| `listUnspent()`                  | `UnspentOutput[]`              |
-| `sendToAddress(address, amount)` | `string`                       |
-| `getReceivedByAddress(address)`  | `number`                       |
-| `importAddress(address)`         | `void`                         |
+| Method                             | Returns                        |
+| ---------------------------------- | ------------------------------ |
+| `getWalletInfo()`                  | `WalletInfo`                   |
+| `getBalance()`                     | `number`                       |
+| `getUnconfirmedBalance()`          | `number`                       |
+| `getNewAddress()`                  | `string`                       |
+| `validateAddress(address)`         | `ValidateAddressResult`        |
+| `getTransaction(txid)`             | `WalletTransaction`            |
+| `listTransactions()`               | `WalletTransactionListEntry[]` |
+| `listSinceBlock(hash?)`            | `ListSinceBlockResult`         |
+| `listUnspent()`                    | `UnspentOutput[]`              |
+| `sendToAddress(address, amount)`   | `string`                       |
+| `getReceivedByAddress(address)`    | `number`                       |
+| `importAddress(address)`           | `void`                         |
+| `encryptWallet(passphrase)`        | `string`                       |
+| `walletPassphrase(pass, secs)`     | `void`                         |
+| `walletPassphraseChange(old, new)` | `void`                         |
+| `walletLock()`                     | `void`                         |
+
+`encryptWallet` is irreversible and shuts the node down on success; restart it before making further calls. Once encrypted, call `walletPassphrase` before anything that signs or sends, and `walletLock` when done.
 
 **Raw Transactions**
 

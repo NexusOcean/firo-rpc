@@ -1,6 +1,11 @@
 import { buildHttpClient } from './http.js';
 import { callRpc, callRpcBatch } from './rpc.js';
-import type { RpcConfig, BatchCall, BatchResult } from '../types/index.js';
+import type {
+  RpcConfig,
+  CallOptions,
+  BatchCall,
+  BatchResult,
+} from '../types/index.js';
 
 import {
   createBlockchainMethods,
@@ -35,6 +40,11 @@ export interface FiroRpcClient
     EvoMethods,
     UtilMethods {
   call<T = unknown>(method: string, ...params: unknown[]): Promise<T>;
+  callWithOptions<T = unknown>(
+    method: string,
+    params: unknown[],
+    options: CallOptions,
+  ): Promise<T>;
   batch(calls: BatchCall[]): Promise<BatchResult[]>;
 }
 
@@ -44,6 +54,13 @@ export function createFiroRpcClient(config: RpcConfig): FiroRpcClient {
   return {
     call<T = unknown>(method: string, ...params: unknown[]): Promise<T> {
       return callRpc<T>(http, method, params);
+    },
+    callWithOptions<T = unknown>(
+      method: string,
+      params: unknown[],
+      options: CallOptions,
+    ): Promise<T> {
+      return callRpc<T>(http, method, params, options);
     },
     batch(calls: BatchCall[]): Promise<BatchResult[]> {
       return callRpcBatch(http, calls);

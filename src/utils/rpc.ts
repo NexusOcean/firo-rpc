@@ -1,5 +1,6 @@
 import { AxiosInstance, AxiosError } from 'axios';
 import type {
+  CallOptions,
   RpcRequest,
   RpcResponse,
   BatchCall,
@@ -22,6 +23,7 @@ export async function callRpc<T = unknown>(
   http: AxiosInstance,
   method: string,
   params: unknown[] = [],
+  options: CallOptions = {},
 ): Promise<T> {
   const request: RpcRequest = {
     jsonrpc: '2.0',
@@ -31,7 +33,10 @@ export async function callRpc<T = unknown>(
   };
 
   try {
-    const { data } = await http.post<RpcResponse<T>>('/', request);
+    const { data } = await http.post<RpcResponse<T>>('/', request, {
+      timeout: options.timeout,
+      signal: options.signal,
+    });
 
     if (data.error) {
       throw new RpcCallError(data.error.message, data.error.code);
@@ -41,8 +46,14 @@ export async function callRpc<T = unknown>(
   } catch (err) {
     if (err instanceof RpcCallError) throw err;
 
-    const axiosErr = err as AxiosError;
+    const axiosErr = err as AxiosError<Partial<RpcResponse>>;
     const status = axiosErr.response?.status;
+    const rpcError = axiosErr.response?.data?.error;
+
+    // RPC errors arrive as HTTP 500/404 with the real code in a JSON body.
+    if (rpcError && typeof rpcError === 'object') {
+      throw new RpcCallError(rpcError.message, rpcError.code, status);
+    }
 
     if (status === 401)
       throw new RpcCallError('Unauthorized: check user/pass', -401, 401);

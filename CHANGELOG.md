@@ -1,5 +1,19 @@
 # Changelog
 
+## Unreleased
+
+### Added
+
+- `callWithOptions(method, params, options)` on `FiroRpcClient` — like `call`, but takes a `CallOptions` object with a per-request `timeout` (overrides the client timeout) and an `AbortSignal` for cancellation. `call` is unchanged
+- `CallOptions` type exported from main entry point
+- Wallet encryption methods on `FiroRpcClient`: `encryptWallet`, `walletPassphrase`, `walletPassphraseChange`, `walletLock`. `encryptWallet` shuts the daemon down on success; on an unencrypted wallet the other three reject with code `-15`
+- Optional `FIRO_WALLET_PASSPHRASE` in `.env.test` — the wallet and Spark test suites unlock an encrypted wallet with it before running
+
+### Fixed
+
+- `RpcCallError` now carries the daemon's error code and message when an RPC error arrives as an HTTP 500/404 with a JSON body (e.g. `-13` for a locked wallet, `-32601` for an unknown method) — previously reported as a generic `Request failed with status code 500` with code `-1`
+- `getSparkNameTxDetails` test used a real Spark name registration as its "unknown txid" fixture
+
 ## 0.6.0 — 2026-07-23
 
 ### Removed

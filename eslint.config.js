@@ -13,6 +13,9 @@ export default [
         sourceType: 'module',
         project: './tsconfig.json',
       },
+      globals: {
+        AbortSignal: 'readonly',
+      },
     },
     plugins: {
       '@typescript-eslint': tseslint,
@@ -46,6 +49,7 @@ export default [
         beforeEach: 'readonly',
         afterEach: 'readonly',
         jest: 'readonly',
+        AbortController: 'readonly',
       },
     },
     plugins: {

@@ -8,6 +8,7 @@ export type {
   RpcRequest,
   RpcResponse,
   RpcError,
+  CallOptions,
   BatchCall,
   BatchResult,
   // Firo types

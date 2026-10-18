@@ -3,6 +3,7 @@ export type {
   RpcRequest,
   RpcResponse,
   RpcError,
+  CallOptions,
   BatchCall,
   BatchResult,
 } from './rpc.js';

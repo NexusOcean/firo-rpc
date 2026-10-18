@@ -27,6 +27,11 @@ export interface RpcError {
   message: string;
 }
 
+export interface CallOptions {
+  timeout?: number;
+  signal?: AbortSignal;
+}
+
 export interface BatchCall {
   method: string;
   params?: unknown[];

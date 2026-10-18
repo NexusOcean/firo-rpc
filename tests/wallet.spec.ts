@@ -1,6 +1,8 @@
-import { makeClient, shouldTestSend } from './setup.js';
+import { makeClient, shouldTestSend, unlockWallet } from './setup.js';
 
 const client = makeClient();
+
+beforeAll(() => unlockWallet(client));
 
 describe('getWalletInfo', () => {
   it('returns wallet metadata with expected fields', async () => {
@@ -332,5 +334,33 @@ describe('abandonTransaction', () => {
   it('is a function', () => {
     // Placeholder: no unconfirmed txid available to test against
     expect(typeof client.abandonTransaction).toBe('function');
+  });
+});
+
+describe('encryptWallet', () => {
+  it('is a function', () => {
+    // Placeholder: irreversible and shuts down the node
+    expect(typeof client.encryptWallet).toBe('function');
+  });
+});
+
+describe('walletPassphrase', () => {
+  it('is a function', () => {
+    // Placeholder: requires an encrypted wallet and its passphrase
+    expect(typeof client.walletPassphrase).toBe('function');
+  });
+});
+
+describe('walletPassphraseChange', () => {
+  it('is a function', () => {
+    // Placeholder: requires an encrypted wallet and its passphrase
+    expect(typeof client.walletPassphraseChange).toBe('function');
+  });
+});
+
+describe('walletLock', () => {
+  it('is a function', () => {
+    // Placeholder: requires an encrypted wallet
+    expect(typeof client.walletLock).toBe('function');
   });
 });

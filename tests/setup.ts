@@ -11,6 +11,7 @@ const {
   FIRO_PORT,
   FIRO_PROTOCOL,
   FIRO_TEST_SEND,
+  FIRO_WALLET_PASSPHRASE,
   TEST_IMPORT_ADDRESS,
   TEST_ADDRESS,
   TEST_SPARK_ADDRESS,
@@ -34,6 +35,14 @@ export function makeClient(
   overrides: Partial<typeof config> = {},
 ): FiroRpcClient {
   return createFiroRpcClient({ ...config, ...overrides });
+}
+
+// Unlocks an encrypted wallet for suites that sign or read spark keys.
+// Never locks afterwards: jest runs spec files in parallel, so a lock in
+// one file would break another mid-run. The timeout expires it instead.
+export async function unlockWallet(client: FiroRpcClient): Promise<void> {
+  if (!FIRO_WALLET_PASSPHRASE) return;
+  await client.walletPassphrase(FIRO_WALLET_PASSPHRASE, 300);
 }
 
 export const shouldTestSend = FIRO_TEST_SEND === '1';

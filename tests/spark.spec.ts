@@ -2,9 +2,12 @@ import {
   makeClient,
   maybeDescribeSparkAddress,
   SPARK_ADDRESS,
+  unlockWallet,
 } from './setup.js';
 
 const client = makeClient();
+
+beforeAll(() => unlockWallet(client));
 
 describe('getSparkLatestCoinId', () => {
   it('returns a positive integer', async () => {
@@ -115,9 +118,7 @@ describe('getSparkNameData', () => {
 describe('getSparkNameTxDetails', () => {
   it('throws for an unknown txid', async () => {
     await expect(
-      client.getSparkNameTxDetails(
-        '6e881bfcdf6fdf210e18fbbae861cfd88f820310e6f785ba3f2d7335bdf97b8e',
-      ),
+      client.getSparkNameTxDetails('0'.repeat(64)),
     ).rejects.toMatchObject({ code: expect.any(Number) });
   });
 });
