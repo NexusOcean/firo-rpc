@@ -3,7 +3,6 @@
  *
  * Look up balance and transaction history for a Firo address.
  * Requires -addressindex enabled on your node.
- *
  */
 
 import dotenv from 'dotenv';

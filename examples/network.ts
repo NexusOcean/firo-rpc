@@ -2,7 +2,6 @@
  * Network Dashboard
  *
  * Inspect node connectivity and peer health.
- * Useful for node monitoring tools, masternode dashboards, or network visualizers.
  */
 
 import dotenv from 'dotenv';

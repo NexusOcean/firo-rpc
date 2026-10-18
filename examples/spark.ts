@@ -4,6 +4,7 @@
  * Summarize wallet-level Spark activity: balance, addresses, recent mints,
  * and basic network-level Spark stats.
  */
+
 import dotenv from 'dotenv';
 import { createFiroRpcClient } from '../src/index.js';
 

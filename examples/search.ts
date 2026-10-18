@@ -2,10 +2,6 @@
  * Search
  *
  * Route a query to the right RPC call based on its format.
- *
- * - 64 hex chars  → transaction
- * - numeric       → block by height
- * - base58 addr   → address (requires -addressindex on your node)
  */
 
 import dotenv from 'dotenv';

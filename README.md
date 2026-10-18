@@ -192,6 +192,9 @@ Use `getNetworkInfo` and `getPeerInfo` to visualize node connectivity and peer h
 **Spark Overview**
 Summarize wallet-level Spark balance, addresses, and recent mint activity. See [`examples/spark.ts`](./examples/spark.ts).
 
+**Encrypted Wallet**
+Unlock an encrypted wallet with `walletPassphrase`, sign and verify a message, then `walletLock`. Requires `FIRO_WALLET_PASSPHRASE` in `.env.test`. See [`examples/encrypted-wallet.ts`](./examples/encrypted-wallet.ts).
+
 **Raw Transaction Lifecycle**
 Create, decode, fund, sign, and optionally broadcast raw transactions. See [`examples/rawtransactions.ts`](./examples/rawtransactions.ts).
 
@@ -215,6 +218,7 @@ npx tsx examples/wallet.ts <address>
 npx tsx examples/mempool.ts
 npx tsx examples/network.ts
 npx tsx examples/spark.ts
+npx tsx examples/encrypted-wallet.ts [address]
 npx tsx examples/rawtxs.ts
 npx tsx examples/rawtxs.ts --send
 ```

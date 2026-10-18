@@ -10,6 +10,7 @@
  *   npx tsx examples/rawtxs.ts
  *   npx tsx examples/rawtxs.ts --send
  */
+
 import dotenv from 'dotenv';
 import { createFiroRpcClient } from '../src/index.js';
 

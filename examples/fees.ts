@@ -3,7 +3,6 @@
  *
  * Estimate transaction fees and fee rates for confirmation within
  * a target number of blocks.
- *
  */
 
 import dotenv from 'dotenv';
